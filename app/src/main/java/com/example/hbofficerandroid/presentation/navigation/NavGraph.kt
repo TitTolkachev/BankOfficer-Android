@@ -1,4 +1,4 @@
-package com.example.bankofficer.presentation.navigation
+package com.example.hbofficerandroid.presentation.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
@@ -11,6 +11,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.hbofficerandroid.presentation.ui.screen.MainScreen
 
 @Composable
 fun NavGraph(
@@ -25,7 +26,17 @@ fun NavGraph(
         composable(
             route = Screen.Main.route
         ) {
-
+            MainScreen()
+        }
+        composable(
+            route = Screen.Screen1.route
+        ) {
+            MainScreen()
+        }
+        composable(
+            route = Screen.Screen2.route
+        ) {
+            MainScreen()
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.bankofficer.di
+package com.example.hbofficerandroid.di
 
 import org.koin.dsl.module
 

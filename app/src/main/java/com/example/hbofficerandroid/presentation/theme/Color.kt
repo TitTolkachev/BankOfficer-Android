@@ -1,4 +1,4 @@
-package com.example.bankofficer.presentation.theme
+package com.example.hbofficerandroid.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

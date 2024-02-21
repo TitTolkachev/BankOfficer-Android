@@ -1,7 +1,7 @@
-package com.example.bankofficer
+package com.example.hbofficerandroid
 
 import android.app.Application
-import com.example.bankofficer.di.appModule
+import com.example.hbofficerandroid.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext

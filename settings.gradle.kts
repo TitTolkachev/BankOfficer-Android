@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "BankOfficer"
+rootProject.name = "hb-officer-android"
 include(":app")
  

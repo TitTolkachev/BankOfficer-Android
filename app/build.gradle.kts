@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.bankofficer"
+    namespace = "com.example.hbofficerandroid"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.bankofficer"
+        applicationId = "com.example.hbofficerandroid"
         minSdk = 28
         targetSdk = 34
         versionCode = 1
