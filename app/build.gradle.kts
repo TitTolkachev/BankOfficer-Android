@@ -26,8 +26,6 @@ android {
         create("staging") {
             initWith(getByName("debug"))
             isDebuggable = false
-            manifestPlaceholders["hostName"] = "bankoffice.example.com"
-            applicationIdSuffix = ".debugStaging"
         }
         release {
             isMinifyEnabled = false

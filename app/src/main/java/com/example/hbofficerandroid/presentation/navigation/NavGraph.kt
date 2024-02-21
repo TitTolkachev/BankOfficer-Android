@@ -29,12 +29,22 @@ fun NavGraph(
             MainScreen()
         }
         composable(
-            route = Screen.Screen1.route
+            route = Screen.Users.route
         ) {
             MainScreen()
         }
         composable(
-            route = Screen.Screen2.route
+            route = Screen.Loans.route
+        ) {
+            MainScreen()
+        }
+        composable(
+            route = Screen.Rates.route
+        ) {
+            MainScreen()
+        }
+        composable(
+            route = Screen.More.route
         ) {
             MainScreen()
         }

@@ -19,8 +19,10 @@ import com.example.hbofficerandroid.presentation.theme.AppTheme
 
 private val items = listOf(
     Screen.Main,
-    Screen.Screen1,
-    Screen.Screen2,
+    Screen.Loans,
+    Screen.Users,
+    Screen.Rates,
+    Screen.More,
 )
 
 @Composable
@@ -45,7 +47,7 @@ fun BottomNavBar(navController: NavHostController) {
                 icon = {
                     Icon(
                         modifier = Modifier.size(24.dp),
-                        painter = painterResource(id = item.icon),
+                        painter = painterResource(id = if (currentRoute == item.route) item.iconFilled else item.icon),
                         contentDescription = item.title
                     )
                 },
