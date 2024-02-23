@@ -5,48 +5,53 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.hbofficerandroid.presentation.ui.screen.MainScreen
+import com.example.hbofficerandroid.presentation.ui.screen.loans.LoansScreen
+import com.example.hbofficerandroid.presentation.ui.screen.main.MainScreen
+import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    startDestination: String,
+    modifier: Modifier = Modifier,
+    fabActions: SharedFlow<Unit>
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Main.route,
-        modifier = modifier
+        startDestination = startDestination,
+        modifier = modifier.fillMaxSize()
     ) {
         composable(
             route = Screen.Main.route
         ) {
-            MainScreen()
-        }
-        composable(
-            route = Screen.Users.route
-        ) {
-            MainScreen()
+            MainScreen(fabActions)
         }
         composable(
             route = Screen.Loans.route
         ) {
-            MainScreen()
+            LoansScreen(fabActions)
+        }
+        composable(
+            route = Screen.Users.route
+        ) {
+            MainScreen(fabActions)
         }
         composable(
             route = Screen.Rates.route
         ) {
-            MainScreen()
+            MainScreen(fabActions)
         }
         composable(
             route = Screen.More.route
         ) {
-            MainScreen()
+            MainScreen(fabActions)
         }
     }
 }
