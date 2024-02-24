@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.hbofficerandroid"
+    namespace = "com.example.trbofficerandroid"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.hbofficerandroid"
+        applicationId = "com.example.trbofficerandroid"
         minSdk = 28
         targetSdk = 34
         versionCode = 1
