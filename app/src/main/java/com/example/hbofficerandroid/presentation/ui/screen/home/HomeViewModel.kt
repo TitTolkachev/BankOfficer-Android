@@ -1,8 +1,8 @@
-package com.example.hbofficerandroid.presentation
+package com.example.hbofficerandroid.presentation.ui.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hbofficerandroid.presentation.navigation.Screen
+import com.example.hbofficerandroid.presentation.navigation.HomeScreen
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -14,14 +14,14 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
 
-    private val _activeScreen: MutableStateFlow<Screen> = MutableStateFlow(START_SCREEN)
-    val activeScreen: StateFlow<Screen> = _activeScreen.asStateFlow()
+    private val _activeScreen: MutableStateFlow<HomeScreen> = MutableStateFlow(START_SCREEN)
+    val activeScreen: StateFlow<HomeScreen> = _activeScreen.asStateFlow()
 
     val fabVisible: StateFlow<Boolean> = _activeScreen.map {
         when (it) {
-            Screen.Loans, Screen.Users, Screen.Rates -> true
+            HomeScreen.UserList, HomeScreen.RateList -> true
             else -> false
         }
     }.stateIn(viewModelScope, WhileSubscribed(), false)
@@ -32,11 +32,15 @@ class MainViewModel : ViewModel() {
     private val _bottomNavActions = MutableSharedFlow<String>()
     val bottomNavActions = _bottomNavActions.shareIn(viewModelScope, WhileSubscribed())
 
-    fun onBottomNavItemClick(item: Screen) {
+    fun onBottomNavItemClick(item: HomeScreen) {
         viewModelScope.launch {
             _bottomNavActions.emit(item.route)
-            _activeScreen.update { item }
         }
+    }
+
+    fun onActiveScreenChange(route: String?) {
+        val screen = SCREENS.find { it.route == route } ?: return
+        _activeScreen.update { screen }
     }
 
     fun onFabClick() {
@@ -46,13 +50,13 @@ class MainViewModel : ViewModel() {
     }
 
     companion object {
-        val START_SCREEN = Screen.Main
+        val START_SCREEN = HomeScreen.Main
         val SCREENS = listOf(
-            Screen.Main,
-            Screen.Loans,
-            Screen.Users,
-            Screen.Rates,
-            Screen.More,
+            HomeScreen.Main,
+            HomeScreen.LoanList,
+            HomeScreen.UserList,
+            HomeScreen.RateList,
+            HomeScreen.More,
         )
     }
 }

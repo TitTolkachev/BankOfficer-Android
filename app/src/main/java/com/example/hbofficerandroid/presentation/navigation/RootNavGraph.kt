@@ -12,16 +12,17 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.hbofficerandroid.presentation.ui.screen.loans.LoansScreen
-import com.example.hbofficerandroid.presentation.ui.screen.main.MainScreen
-import kotlinx.coroutines.flow.SharedFlow
+import com.example.hbofficerandroid.presentation.ui.screen.adduser.AddUserScreen
+import com.example.hbofficerandroid.presentation.ui.screen.client.ClientScreen
+import com.example.hbofficerandroid.presentation.ui.screen.home.HomeScreen
+import com.example.hbofficerandroid.presentation.ui.screen.officer.OfficerScreen
+import com.example.hbofficerandroid.presentation.ui.screen.rate.RateScreen
 
 @Composable
-fun NavGraph(
+fun RootNavGraph(
     navController: NavHostController,
     startDestination: String,
     modifier: Modifier = Modifier,
-    fabActions: SharedFlow<Unit>
 ) {
     NavHost(
         navController = navController,
@@ -29,29 +30,29 @@ fun NavGraph(
         modifier = modifier.fillMaxSize()
     ) {
         composable(
-            route = Screen.Main.route
+            route = Screen.Home.route
         ) {
-            MainScreen(fabActions)
+            HomeScreen(rootNavController = navController)
         }
         composable(
-            route = Screen.Loans.route
+            route = Screen.Rate.route
         ) {
-            LoansScreen(fabActions)
+            RateScreen()
         }
         composable(
-            route = Screen.Users.route
+            route = Screen.Client.route
         ) {
-            MainScreen(fabActions)
+            ClientScreen()
         }
         composable(
-            route = Screen.Rates.route
+            route = Screen.Officer.route
         ) {
-            MainScreen(fabActions)
+            OfficerScreen()
         }
         composable(
-            route = Screen.More.route
+            route = Screen.AddUser.route
         ) {
-            MainScreen(fabActions)
+            AddUserScreen()
         }
     }
 }

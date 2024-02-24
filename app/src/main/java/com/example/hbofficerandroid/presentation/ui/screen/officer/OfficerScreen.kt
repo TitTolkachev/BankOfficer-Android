@@ -1,4 +1,4 @@
-package com.example.hbofficerandroid.presentation.ui.screen.main
+package com.example.hbofficerandroid.presentation.ui.screen.officer
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -6,19 +6,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.hbofficerandroid.presentation.theme.AppTheme
 
 @Composable
-fun MainScreen() {
-    MainScreenContent()
+fun OfficerScreen() {
+    OfficerScreenContent()
 }
 
 @Composable
-private fun MainScreenContent() {
-    Text("TODO: Экран с полезной информацией")
+private fun OfficerScreenContent() {
+    Text("TODO: Экран с информацией о сотруднике")
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
     AppTheme {
-        MainScreenContent()
+        OfficerScreenContent()
     }
 }

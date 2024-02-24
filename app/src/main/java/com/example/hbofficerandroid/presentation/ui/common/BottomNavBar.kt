@@ -13,14 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.hbofficerandroid.presentation.MainViewModel
-import com.example.hbofficerandroid.presentation.navigation.Screen
+import com.example.hbofficerandroid.presentation.navigation.HomeScreen
 import com.example.hbofficerandroid.presentation.theme.AppTheme
+import com.example.hbofficerandroid.presentation.ui.screen.home.HomeViewModel
 
 @Composable
-fun BottomNavBar(active: Screen, onClick: (Screen) -> Unit) {
+fun BottomNavBar(active: HomeScreen, onClick: (HomeScreen) -> Unit) {
     NavigationBar {
-        MainViewModel.SCREENS.forEach { item ->
+        HomeViewModel.SCREENS.forEach { item ->
             NavBarItem(
                 item = item,
                 selected = active == item,
@@ -31,7 +31,7 @@ fun BottomNavBar(active: Screen, onClick: (Screen) -> Unit) {
 }
 
 @Composable
-private fun RowScope.NavBarItem(item: Screen, selected: Boolean, onClick: () -> Unit) {
+private fun RowScope.NavBarItem(item: HomeScreen, selected: Boolean, onClick: () -> Unit) {
     NavigationBarItem(
         selected = selected,
         onClick = onClick,
@@ -41,7 +41,7 @@ private fun RowScope.NavBarItem(item: Screen, selected: Boolean, onClick: () -> 
 }
 
 @Composable
-private fun NavBarIcon(item: Screen, selected: Boolean) {
+private fun NavBarIcon(item: HomeScreen, selected: Boolean) {
     Icon(
         modifier = Modifier.size(24.dp),
         painter = painterResource(id = if (selected) item.iconFilled else item.icon),
@@ -60,7 +60,7 @@ private fun Preview() {
     AppTheme {
         Surface {
             BottomNavBar(
-                active = Screen.Main,
+                active = HomeScreen.Main,
                 onClick = {}
             )
         }
