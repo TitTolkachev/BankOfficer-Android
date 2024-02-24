@@ -42,13 +42,19 @@ fun HomeNavGraph(
             UserListScreen(
                 fabActions = fabActions,
                 onClientClick = {
-                    rootNavController.navigate(Screen.Client.route)
+                    rootNavController.navigate(Screen.Client.route) {
+                        launchSingleTop = true
+                    }
                 },
                 onOfficerClick = {
-                    rootNavController.navigate(Screen.Officer.route)
+                    rootNavController.navigate(Screen.Officer.route) {
+                        launchSingleTop = true
+                    }
                 },
                 onAddUserClick = {
-                    rootNavController.navigate(Screen.AddUser.route)
+                    rootNavController.navigate(Screen.AddUser.route) {
+                        launchSingleTop = true
+                    }
                 }
             )
         }
