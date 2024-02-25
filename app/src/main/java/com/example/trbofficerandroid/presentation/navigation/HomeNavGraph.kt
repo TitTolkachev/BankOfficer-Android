@@ -61,7 +61,19 @@ fun HomeNavGraph(
         composable(
             route = HomeScreen.RateList.route
         ) {
-            RateListScreen()
+            RateListScreen(
+                fabActions = fabActions,
+                onRateClick = {
+                    rootNavController.navigate(Screen.Rate.route) {
+                        launchSingleTop = true
+                    }
+                },
+                onAddRateClick = {
+                    rootNavController.navigate(Screen.AddRate.route) {
+                        launchSingleTop = true
+                    }
+                }
+            )
         }
         composable(
             route = HomeScreen.More.route

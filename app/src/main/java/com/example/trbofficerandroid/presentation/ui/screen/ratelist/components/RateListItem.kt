@@ -20,8 +20,8 @@ import com.example.trbofficerandroid.presentation.theme.AppTheme
 import com.example.trbofficerandroid.presentation.ui.screen.ratelist.model.RateShort
 
 @Composable
-fun RateListItem(modifier: Modifier = Modifier, item: RateShort, onClick: () -> Unit = {}) {
-    OutlinedCard(modifier = modifier, onClick = onClick) {
+fun RateListItem(item: RateShort, onClick: () -> Unit = {}) {
+    OutlinedCard(onClick = onClick) {
         Column(
             Modifier
                 .padding(16.dp)
@@ -30,20 +30,11 @@ fun RateListItem(modifier: Modifier = Modifier, item: RateShort, onClick: () -> 
             Text(
                 text = item.name,
                 style = MaterialTheme.typography.titleLarge,
-                maxLines = 2,
-                minLines = 2,
+                maxLines = 3,
+                minLines = 3,
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Сумма",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.outline
-            )
-            Text(
-                text = item.limit,
-                style = MaterialTheme.typography.titleMedium
-            )
             Surface(
                 modifier = Modifier.align(Alignment.End),
                 shape = RoundedCornerShape(100),
@@ -67,9 +58,7 @@ private fun Preview() {
                 item = RateShort(
                     id = "",
                     name = "Лучший февральский тариф",
-                    limit = "100₽",
-                    percentageRate = 12.5,
-                    period = "3 месяца"
+                    percentageRate = 12.5
                 )
             )
         }

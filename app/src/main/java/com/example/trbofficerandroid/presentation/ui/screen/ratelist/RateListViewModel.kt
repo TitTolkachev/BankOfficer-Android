@@ -22,30 +22,27 @@ class RateListViewModel : ViewModel() {
                 RateShort(
                     id = "1",
                     name = "Обычный тариф",
-                    limit = "1000₽",
-                    percentageRate = 15.5,
-                    period = "5 лет"
+                    percentageRate = 15.5
                 ),
                 RateShort(
                     id = "2",
                     name = "Лучший февральский тариф",
-                    limit = "100₽",
-                    percentageRate = 16.5,
-                    period = "3 месяца"
+                    percentageRate = 16.5
                 ),
                 RateShort(
                     id = "3",
                     name = "Лучший мартовский тариф",
-                    limit = "10₽",
-                    percentageRate = 10.5,
-                    period = "1 месяц"
+                    percentageRate = 10.5
                 ),
                 RateShort(
                     id = "4",
                     name = "Лучший апрельский тариф",
-                    limit = "1010₽",
-                    percentageRate = 11.5,
-                    period = "6 лет"
+                    percentageRate = 11.5
+                ),
+                RateShort(
+                    id = "5",
+                    name = "Семейный",
+                    percentageRate = 1.5
                 ),
             )
         }

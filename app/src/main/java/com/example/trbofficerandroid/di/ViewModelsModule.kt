@@ -1,5 +1,6 @@
 package com.example.trbofficerandroid.di
 
+import com.example.trbofficerandroid.presentation.ui.screen.addrate.AddRateViewModel
 import com.example.trbofficerandroid.presentation.ui.screen.home.HomeViewModel
 import com.example.trbofficerandroid.presentation.ui.screen.ratelist.RateListViewModel
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.UserListViewModel
@@ -11,4 +12,5 @@ val viewModelsModule = module {
     viewModel { HomeViewModel() }
     viewModel { UserListViewModel() }
     viewModel { RateListViewModel() }
+    viewModel { AddRateViewModel() }
 }

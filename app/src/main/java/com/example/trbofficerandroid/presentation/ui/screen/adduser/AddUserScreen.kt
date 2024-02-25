@@ -8,11 +8,11 @@ import com.example.trbofficerandroid.presentation.theme.AppTheme
 
 @Composable
 fun AddUserScreen() {
-    AddUser()
+    AddUserScreenContent()
 }
 
 @Composable
-private fun AddUser() {
+private fun AddUserScreenContent() {
     Text("TODO: Экран добавления пользователя")
 }
 
@@ -21,7 +21,7 @@ private fun AddUser() {
 private fun Preview() {
     AppTheme {
         Surface {
-            AddUser()
+            AddUserScreenContent()
         }
     }
 }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -20,21 +21,35 @@ import com.example.trbofficerandroid.presentation.theme.AppTheme
 import com.example.trbofficerandroid.presentation.ui.common.EmptyList
 import com.example.trbofficerandroid.presentation.ui.screen.ratelist.components.RateListItem
 import com.example.trbofficerandroid.presentation.ui.screen.ratelist.model.RateShort
+import kotlinx.coroutines.flow.SharedFlow
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun RateListScreen() {
+fun RateListScreen(
+    fabActions: SharedFlow<Unit>,
+    onRateClick: (String) -> Unit,
+    onAddRateClick: () -> Unit,
+) {
     val viewModel: RateListViewModel = koinViewModel()
     val items by viewModel.rateList.collectAsState()
 
+    // Fab Actions Handling
+    LaunchedEffect(Unit) {
+        fabActions.collect {
+            onAddRateClick()
+        }
+    }
+
     RateListScreenContent(
         items = items,
+        onRateClick = onRateClick
     )
 }
 
 @Composable
 private fun RateListScreenContent(
-    items: List<RateShort>?
+    items: List<RateShort>?,
+    onRateClick: (String) -> Unit = {}
 ) {
     if (items == null) {
         Box(
@@ -53,7 +68,7 @@ private fun RateListScreenContent(
             horizontalArrangement = spacedBy(8.dp),
         ) {
             items(items = items, key = { it.id }) {
-                RateListItem(Modifier, it)
+                RateListItem(item = it, onClick = { onRateClick(it.id) })
             }
         }
     }
@@ -69,30 +84,27 @@ private fun Preview() {
                     RateShort(
                         id = "1",
                         name = "Обычный тариф",
-                        limit = "1000₽",
-                        percentageRate = 15.5,
-                        period = "5 лет"
+                        percentageRate = 15.5
                     ),
                     RateShort(
                         id = "2",
                         name = "Лучший февральский тариф",
-                        limit = "100₽",
-                        percentageRate = 16.5,
-                        period = "3 месяца"
+                        percentageRate = 16.5
                     ),
                     RateShort(
                         id = "3",
                         name = "Лучший мартовский тариф",
-                        limit = "10₽",
-                        percentageRate = 10.5,
-                        period = "1 месяц"
+                        percentageRate = 10.5
                     ),
                     RateShort(
                         id = "4",
                         name = "Лучший апрельский тариф",
-                        limit = "1010₽",
-                        percentageRate = 11.5,
-                        period = "6 лет"
+                        percentageRate = 11.5
+                    ),
+                    RateShort(
+                        id = "5",
+                        name = "Семейный",
+                        percentageRate = 1.5
                     ),
                 )
             )

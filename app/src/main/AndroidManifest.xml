@@ -14,10 +14,11 @@
         android:theme="@style/Theme.HITsBank"
         tools:targetApi="31">
         <activity
-            android:screenOrientation="portrait"
             android:name="com.example.trbofficerandroid.presentation.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.HITsBank">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.HITsBank"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
