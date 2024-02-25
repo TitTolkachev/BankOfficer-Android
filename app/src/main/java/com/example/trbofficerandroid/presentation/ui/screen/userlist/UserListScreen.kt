@@ -89,10 +89,12 @@ private fun UserListScreenContent(
     )
 
     val officers = listOf(
-        UserShort("1", "Карл1", "Иванов", "01.01.2020"),
-        UserShort("2", "Карл2", "Иванов", "01.01.2020"),
-        UserShort("3", "Карл3", "Иванов", "01.01.2020"),
-        UserShort("4", "Карл4", "Иванов", "01.01.2020"),
+        UserShort("1", "Архимед", "Иванов", "01.01.1999"),
+        UserShort("2", "Юлий", "Цезарь", "01.01.1999"),
+        UserShort("3", "Аристотель", "Иванов", "01.01.1999"),
+        UserShort("4", "Гараж", "Продам", "01.01.1999"),
+        UserShort("5", "Максим", "Толокнов", "01.01.1999"),
+        UserShort("6", "Константин", "Самойленко", "01.01.1999"),
     )
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -134,7 +136,7 @@ private fun UserListScreenContent(
                 text = { Text("Клиенты") },
                 icon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.person_search_filled_24),
+                        painter = painterResource(id = R.drawable.self_improvement_24),
                         contentDescription = null
                     )
                 })
@@ -145,7 +147,7 @@ private fun UserListScreenContent(
                 text = { Text("Сотрудники") },
                 icon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.payments_filled_24),
+                        painter = painterResource(id = R.drawable.groups_filled_24),
                         contentDescription = null
                     )
                 })
