@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -25,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.trbofficerandroid.R
 import com.example.trbofficerandroid.presentation.theme.AppTheme
+import com.example.trbofficerandroid.presentation.ui.common.BackButton
 import com.example.trbofficerandroid.presentation.ui.screen.loanlist.components.ApplicationListItem
 import com.example.trbofficerandroid.presentation.ui.screen.loanlist.components.LoanListItem
 import com.example.trbofficerandroid.presentation.ui.screen.loanlist.model.ApplicationShort
@@ -76,12 +76,7 @@ private fun LoanListScreenContent(
             onActiveChange = { onSearchBarStateChange(it) },
             leadingIcon = {
                 AnimatedVisibility(visible = searchActive, enter = scaleIn(), exit = scaleOut()) {
-                    IconButton(onClick = { onSearchBarStateChange(false) }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null
-                        )
-                    }
+                    BackButton { onSearchBarStateChange(false) }
                 }
             },
             trailingIcon = {

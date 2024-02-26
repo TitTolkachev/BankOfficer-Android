@@ -12,6 +12,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.trbofficerandroid.presentation.ui.screen.account.AccountScreen
 import com.example.trbofficerandroid.presentation.ui.screen.addrate.AddRateScreen
 import com.example.trbofficerandroid.presentation.ui.screen.adduser.AddUserScreen
 import com.example.trbofficerandroid.presentation.ui.screen.client.ClientScreen
@@ -43,7 +44,14 @@ fun RootNavGraph(
         composable(
             route = Screen.Client.route
         ) {
-            ClientScreen()
+            ClientScreen(
+                onBackClick = { navController.popBackStack() },
+                navigateToAccount = {
+                    navController.navigate(Screen.Account.route) {
+                        launchSingleTop = true
+                    }
+                }
+            )
         }
         composable(
             route = Screen.Officer.route
@@ -59,6 +67,13 @@ fun RootNavGraph(
             route = Screen.AddRate.route
         ) {
             AddRateScreen(
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+        composable(
+            route = Screen.Account.route
+        ) {
+            AccountScreen(
                 onBackClick = { navController.popBackStack() }
             )
         }
