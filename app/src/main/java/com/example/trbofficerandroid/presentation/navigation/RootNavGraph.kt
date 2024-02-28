@@ -13,8 +13,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.trbofficerandroid.presentation.ui.screen.account.AccountScreen
+import com.example.trbofficerandroid.presentation.ui.screen.addclient.AddClientScreen
+import com.example.trbofficerandroid.presentation.ui.screen.addofficer.AddOfficerScreen
 import com.example.trbofficerandroid.presentation.ui.screen.addrate.AddRateScreen
-import com.example.trbofficerandroid.presentation.ui.screen.adduser.AddUserScreen
 import com.example.trbofficerandroid.presentation.ui.screen.client.ClientScreen
 import com.example.trbofficerandroid.presentation.ui.screen.home.HomeScreen
 import com.example.trbofficerandroid.presentation.ui.screen.officer.OfficerScreen
@@ -59,9 +60,18 @@ fun RootNavGraph(
             OfficerScreen()
         }
         composable(
-            route = Screen.AddUser.route
+            route = Screen.AddClient.route
         ) {
-            AddUserScreen()
+            AddClientScreen(
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+        composable(
+            route = Screen.AddOfficer.route
+        ) {
+            AddOfficerScreen(
+                onBackClick = { navController.popBackStack() }
+            )
         }
         composable(
             route = Screen.AddRate.route

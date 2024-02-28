@@ -20,7 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,6 +30,7 @@ import com.example.trbofficerandroid.R
 import com.example.trbofficerandroid.presentation.theme.AppTheme
 import com.example.trbofficerandroid.presentation.ui.common.BackButton
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.components.ClientListItem
+import com.example.trbofficerandroid.presentation.ui.screen.userlist.components.UserListBottomSheet
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState.CLIENT
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState.OFFICER
@@ -40,17 +43,27 @@ fun UserListScreen(
     fabActions: SharedFlow<Unit>,
     onClientClick: () -> Unit,
     onOfficerClick: () -> Unit,
-    onAddUserClick: () -> Unit,
+    onAddClientClick: () -> Unit,
+    onAddOfficerClick: () -> Unit,
 ) {
     val viewModel: UserListViewModel = koinViewModel()
     val activeTab by viewModel.activeTab.collectAsState()
     val searchActive by viewModel.searchActive.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
 
+    // Choosing a user type
+    var showBottomSheet by remember { mutableStateOf(false) }
+    UserListBottomSheet(
+        showBottomSheet = showBottomSheet,
+        hideBottomSheet = remember { { showBottomSheet = false } },
+        onAddClientClick = onAddClientClick,
+        onAddOfficerClick = onAddOfficerClick,
+    )
+
     // Fab Actions Handling
     LaunchedEffect(Unit) {
         fabActions.collect {
-            onAddUserClick()
+            showBottomSheet = true
         }
     }
 

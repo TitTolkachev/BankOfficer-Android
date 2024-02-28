@@ -57,7 +57,7 @@ private fun AddRateScreenContent(
         topBar = {
             CenterAlignedTopAppBar(
                 navigationIcon = { BackButton(onBackClick) },
-                title = { Text(text = "Создание тарифа") }
+                title = { Text(text = "Новый тариф") }
             )
         }
     ) { paddingValues ->
@@ -90,7 +90,7 @@ private fun AddRateScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { /*TODO*/ onBackClick() }
             ) {
-                Text(text = "Добавить")
+                Text(text = "Создать")
             }
         }
     }

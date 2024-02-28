@@ -51,8 +51,13 @@ fun HomeNavGraph(
                         launchSingleTop = true
                     }
                 },
-                onAddUserClick = {
-                    rootNavController.navigate(Screen.AddUser.route) {
+                onAddClientClick = {
+                    rootNavController.navigate(Screen.AddClient.route) {
+                        launchSingleTop = true
+                    }
+                },
+                onAddOfficerClick = {
+                    rootNavController.navigate(Screen.AddOfficer.route) {
                         launchSingleTop = true
                     }
                 }
