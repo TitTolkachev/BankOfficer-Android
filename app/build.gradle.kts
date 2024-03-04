@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlinx-serialization")
     id("com.google.devtools.ksp")
+    id("com.google.protobuf") version "0.9.4"
 }
 
 android {
@@ -56,6 +57,33 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    protobuf {
+        protoc {
+            artifact = "com.google.protobuf:protoc:3.25.1"
+        }
+        plugins {
+            create("java") {
+                artifact = "com.google.protobuf:protoc-gen-javalite:3.0.0"
+            }
+            create("grpc") {
+                artifact = "io.grpc:protoc-gen-grpc-java:1.62.2"
+            }
+        }
+        generateProtoTasks {
+            all().forEach { task ->
+                task.builtins {
+                    create("java") {
+                        option("lite")
+                    }
+                }
+                task.plugins {
+                    create("grpc") {
+                        option("lite")
+                    }
+                }
+            }
+        }
+    }
 }
 
 dependencies {
@@ -96,4 +124,10 @@ dependencies {
 
     // Rebugger
     implementation("io.github.theapache64:rebugger:1.0.0-rc02")
+
+    // Grpc
+    implementation("io.grpc:grpc-okhttp:1.62.2")
+    implementation("io.grpc:grpc-protobuf-lite:1.62.2")
+    implementation("io.grpc:grpc-stub:1.62.2")
+    implementation("org.apache.tomcat:annotations-api:6.0.53")
 }

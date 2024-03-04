@@ -3,11 +3,14 @@ package com.example.trbofficerandroid.presentation.ui.screen.userlist
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.trbofficerandroid.R
@@ -47,6 +51,7 @@ fun UserListScreen(
     onAddOfficerClick: () -> Unit,
 ) {
     val viewModel: UserListViewModel = koinViewModel()
+    val clients by viewModel.clients.collectAsState()
     val activeTab by viewModel.activeTab.collectAsState()
     val searchActive by viewModel.searchActive.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
@@ -68,6 +73,7 @@ fun UserListScreen(
     }
 
     UserListScreenContent(
+        clients = clients,
         activeTab = activeTab,
         searchActive = searchActive,
         searchQuery = searchQuery,
@@ -83,6 +89,15 @@ fun UserListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun UserListScreenContent(
+    clients: List<UserShort>? = listOf(),
+    officers: List<UserShort>? = listOf(
+        UserShort("1", "Архимед", "Иванов", "01.01.1999"),
+        UserShort("2", "Юлий", "Цезарь", "01.01.1999"),
+        UserShort("3", "Аристотель", "Иванов", "01.01.1999"),
+        UserShort("4", "Гараж", "Продам", "01.01.1999"),
+        UserShort("5", "Максим", "Толокнов", "01.01.1999"),
+        UserShort("6", "Константин", "Самойленко", "01.01.1999"),
+    ),
     activeTab: UserListTabState = CLIENT,
     searchActive: Boolean = false,
     searchQuery: String = "",
@@ -93,23 +108,6 @@ private fun UserListScreenContent(
     onSearchBarStateChange: (Boolean) -> Unit = {},
     onSearchQueryChange: (String) -> Unit = {},
 ) {
-
-    val clients = listOf(
-        UserShort("1", "Иван1", "Иванов", "01.01.2020"),
-        UserShort("2", "Иван2", "Иванов", "01.01.2020"),
-        UserShort("3", "Иван3", "Иванов", "01.01.2020"),
-        UserShort("4", "Иван4", "Иванов", "01.01.2020"),
-    )
-
-    val officers = listOf(
-        UserShort("1", "Архимед", "Иванов", "01.01.1999"),
-        UserShort("2", "Юлий", "Цезарь", "01.01.1999"),
-        UserShort("3", "Аристотель", "Иванов", "01.01.1999"),
-        UserShort("4", "Гараж", "Продам", "01.01.1999"),
-        UserShort("5", "Максим", "Толокнов", "01.01.1999"),
-        UserShort("6", "Константин", "Самойленко", "01.01.1999"),
-    )
-
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         SearchBar(
             placeholder = { Text(text = "Найти пользователя") },
@@ -163,17 +161,29 @@ private fun UserListScreenContent(
 
         when (activeTab) {
             CLIENT -> {
-                LazyColumn {
-                    items(items = clients, key = { it.id }) {
-                        ClientListItem(item = it, onClick = onClientClick)
+                if (clients == null) {
+                    Box(Modifier.fillMaxSize()) {
+                        CircularProgressIndicator(Modifier.align(Alignment.Center))
+                    }
+                } else {
+                    LazyColumn {
+                        items(items = clients, key = { it.id }) {
+                            ClientListItem(item = it, onClick = onClientClick)
+                        }
                     }
                 }
             }
 
             OFFICER -> {
-                LazyColumn {
-                    items(items = officers, key = { it.id }) {
-                        ClientListItem(item = it, onClick = onOfficerClick)
+                if (officers == null) {
+                    Box(Modifier.fillMaxSize()) {
+                        CircularProgressIndicator(Modifier.align(Alignment.Center))
+                    }
+                } else {
+                    LazyColumn {
+                        items(items = officers, key = { it.id }) {
+                            ClientListItem(item = it, onClick = onOfficerClick)
+                        }
                     }
                 }
             }

@@ -2,6 +2,7 @@ package com.example.trbofficerandroid
 
 import android.app.Application
 import com.example.trbofficerandroid.di.appModule
+import com.example.trbofficerandroid.di.networkModule
 import com.example.trbofficerandroid.di.viewModelsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -14,7 +15,7 @@ class App : Application() {
         GlobalContext.startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(appModule, viewModelsModule)
+            modules(appModule, networkModule, viewModelsModule)
         }
     }
 }
