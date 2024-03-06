@@ -1,12 +1,14 @@
 package com.example.trbofficerandroid.presentation.ui.screen.userlist
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.trbofficerandroid.ApiServiceGrpc
 import com.example.trbofficerandroid.GetClientListRequest
+import com.example.trbofficerandroid.UserServiceGrpc.UserServiceBlockingStub
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState.CLIENT
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserShort
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class UserListViewModel(
-    private val api: ApiServiceGrpc.ApiServiceBlockingStub
+    private val api: UserServiceBlockingStub
 ) : ViewModel() {
 
     private val _clients: MutableStateFlow<List<UserShort>?> = MutableStateFlow(null)
@@ -45,10 +47,18 @@ class UserListViewModel(
         _searchQuery.update { value }
     }
 
-    private fun loadUsers() = viewModelScope.launch {
+    private fun loadUsers() = viewModelScope.launch(Dispatchers.IO) {
         val request = GetClientListRequest.newBuilder().build()
-        val clients = api.getClientList(request).clientsList
-
+        val clients = try {
+            api.getClientList(request).clientsList
+        } catch (e: Exception) {
+            Log.e(TAG, e.message ?: "")
+            emptyList()
+        }
         _clients.update { clients.map { UserShort.fromProto(it) } }
+    }
+
+    companion object {
+        private val TAG = UserListViewModel::class.simpleName
     }
 }

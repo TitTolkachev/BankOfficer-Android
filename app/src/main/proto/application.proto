@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.trbofficerandroid";
+option java_outer_classname = "ApplicationProto";
+
+package application;
+
+service ApplicationService {
+  rpc GetApplicationList (GetApplicationListRequest) returns (GetApplicationListReply);
+  rpc GetApplication (GetApplicationRequest) returns (GetApplicationReply);
+}
+
+// Get Application List
+message GetApplicationListRequest{}
+message GetApplicationListReply{}
+
+// Get Application Info
+message GetApplicationRequest{}
+message GetApplicationReply{}

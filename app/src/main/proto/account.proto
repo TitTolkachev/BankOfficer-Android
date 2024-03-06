@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+import "common.proto";
+
+option java_multiple_files = true;
+option java_package = "com.example.trbofficerandroid";
+option java_outer_classname = "AccountProto";
+
+package account;
+
+service AccountService {
+  rpc GetAccountList (GetAccountListRequest) returns (GetAccountListReply);
+  rpc GetAccount (GetAccountRequest) returns (GetAccountReply);
+}
+
+// Get Account List
+message GetAccountListRequest{
+  string userId = 1;
+}
+message GetAccountListReply{
+  repeated common.AccountShort accounts = 1;
+}
+
+// Get Account Info
+message GetAccountRequest{
+  string accountId = 1;
+}
+message GetAccountReply{
+  common.Account account = 1;
+}
