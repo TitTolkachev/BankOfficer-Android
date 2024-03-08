@@ -52,6 +52,7 @@ fun UserListScreen(
 ) {
     val viewModel: UserListViewModel = koinViewModel()
     val clients by viewModel.clients.collectAsState()
+    val officers by viewModel.officers.collectAsState()
     val activeTab by viewModel.activeTab.collectAsState()
     val searchActive by viewModel.searchActive.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
@@ -74,6 +75,7 @@ fun UserListScreen(
 
     UserListScreenContent(
         clients = clients,
+        officers = officers,
         activeTab = activeTab,
         searchActive = searchActive,
         searchQuery = searchQuery,
@@ -90,14 +92,7 @@ fun UserListScreen(
 @Composable
 private fun UserListScreenContent(
     clients: List<UserShort>? = listOf(),
-    officers: List<UserShort>? = listOf(
-        UserShort("1", "Архимед", "Иванов", "01.01.1999"),
-        UserShort("2", "Юлий", "Цезарь", "01.01.1999"),
-        UserShort("3", "Аристотель", "Иванов", "01.01.1999"),
-        UserShort("4", "Гараж", "Продам", "01.01.1999"),
-        UserShort("5", "Максим", "Толокнов", "01.01.1999"),
-        UserShort("6", "Константин", "Самойленко", "01.01.1999"),
-    ),
+    officers: List<UserShort>? = listOf(),
     activeTab: UserListTabState = CLIENT,
     searchActive: Boolean = false,
     searchQuery: String = "",
@@ -196,7 +191,17 @@ private fun UserListScreenContent(
 private fun Preview() {
     AppTheme {
         Surface {
-            UserListScreenContent()
+            UserListScreenContent(
+                activeTab = OFFICER,
+                officers = listOf(
+                    UserShort("1", "Архимед", "Иванов", "01.01.1999"),
+                    UserShort("2", "Юлий", "Цезарь", "01.01.1999"),
+                    UserShort("3", "Аристотель", "Иванов", "01.01.1999"),
+                    UserShort("4", "Гараж", "Продам", "01.01.1999"),
+                    UserShort("5", "Максим", "Толокнов", "01.01.1999"),
+                    UserShort("6", "Константин", "Самойленко", "01.01.1999"),
+                )
+            )
         }
     }
 }

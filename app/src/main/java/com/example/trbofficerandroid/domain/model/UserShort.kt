@@ -1,4 +1,4 @@
-package com.example.trbofficerandroid.presentation.ui.screen.userlist.model
+package com.example.trbofficerandroid.domain.model
 
 data class UserShort(
     val id: String,

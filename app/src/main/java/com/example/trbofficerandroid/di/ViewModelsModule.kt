@@ -10,10 +10,10 @@ import com.example.trbofficerandroid.presentation.ui.screen.userlist.UserListVie
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val viewModelsModule = module {
+val viewModelModule = module {
 
     viewModel { HomeViewModel() }
-    viewModel { UserListViewModel(get()) }
+    viewModel { UserListViewModel(get(), get()) }
     viewModel { RateListViewModel() }
     viewModel { AddRateViewModel() }
     viewModel { LoanListViewModel() }

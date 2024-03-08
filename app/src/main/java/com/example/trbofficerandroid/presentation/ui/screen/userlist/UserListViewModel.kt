@@ -1,14 +1,13 @@
 package com.example.trbofficerandroid.presentation.ui.screen.userlist
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.trbofficerandroid.GetClientListRequest
-import com.example.trbofficerandroid.UserServiceGrpc.UserServiceBlockingStub
+import com.example.trbofficerandroid.domain.usecase.GetClientListUseCase
+import com.example.trbofficerandroid.domain.usecase.GetOfficerListUseCase
+import com.example.trbofficerandroid.presentation.ui.screen.userlist.mapper.UserMapper.toUi
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState.CLIENT
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserShort
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,11 +15,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class UserListViewModel(
-    private val api: UserServiceBlockingStub
+    private val getClientListUseCase: GetClientListUseCase,
+    private val getOfficerListUseCase: GetOfficerListUseCase,
 ) : ViewModel() {
 
     private val _clients: MutableStateFlow<List<UserShort>?> = MutableStateFlow(null)
     val clients = _clients.asStateFlow()
+
+    private val _officers: MutableStateFlow<List<UserShort>?> = MutableStateFlow(null)
+    val officers = _officers.asStateFlow()
 
     private val _searchActive = MutableStateFlow(false)
     val searchActive: StateFlow<Boolean> = _searchActive.asStateFlow()
@@ -47,18 +50,8 @@ class UserListViewModel(
         _searchQuery.update { value }
     }
 
-    private fun loadUsers() = viewModelScope.launch(Dispatchers.IO) {
-        val request = GetClientListRequest.newBuilder().build()
-        val clients = try {
-            api.getClientList(request).clientsList
-        } catch (e: Exception) {
-            Log.e(TAG, e.message ?: "")
-            emptyList()
-        }
-        _clients.update { clients.map { UserShort.fromProto(it) } }
-    }
-
-    companion object {
-        private val TAG = UserListViewModel::class.simpleName
+    private fun loadUsers() = viewModelScope.launch {
+        _clients.update { getClientListUseCase().toUi() }
+        _officers.update { getOfficerListUseCase().toUi() }
     }
 }
