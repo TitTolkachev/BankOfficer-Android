@@ -3,8 +3,8 @@ package com.example.trbofficerandroid.presentation.navigation
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -33,17 +33,29 @@ fun RootNavGraph(
         modifier = modifier.fillMaxSize()
     ) {
         composable(
-            route = Screen.Home.route
+            route = Screen.Home.route,
+            enterTransition = { enterTransition() },
+            popEnterTransition = { popEnterTransition() },
+            exitTransition = { exitTransition() },
+            popExitTransition = { popExitTransition() },
         ) {
             HomeScreen(rootNavController = navController)
         }
         composable(
-            route = Screen.Rate.route
+            route = Screen.Rate.route,
+            enterTransition = { enterTransition() },
+            popEnterTransition = { popEnterTransition() },
+            exitTransition = { exitTransition() },
+            popExitTransition = { popExitTransition() },
         ) {
             RateScreen()
         }
         composable(
-            route = Screen.Client.route
+            route = Screen.Client.route,
+            enterTransition = { enterTransition() },
+            popEnterTransition = { popEnterTransition() },
+            exitTransition = { exitTransition() },
+            popExitTransition = { popExitTransition() },
         ) {
             ClientScreen(
                 onBackClick = { navController.popBackStack() },
@@ -55,33 +67,53 @@ fun RootNavGraph(
             )
         }
         composable(
-            route = Screen.Officer.route
+            route = Screen.Officer.route,
+            enterTransition = { enterTransition() },
+            popEnterTransition = { popEnterTransition() },
+            exitTransition = { exitTransition() },
+            popExitTransition = { popExitTransition() },
         ) {
             OfficerScreen()
         }
         composable(
-            route = Screen.AddClient.route
+            route = Screen.AddClient.route,
+            enterTransition = { enterTransition() },
+            popEnterTransition = { popEnterTransition() },
+            exitTransition = { exitTransition() },
+            popExitTransition = { popExitTransition() },
         ) {
             AddClientScreen(
                 onBackClick = { navController.popBackStack() }
             )
         }
         composable(
-            route = Screen.AddOfficer.route
+            route = Screen.AddOfficer.route,
+            enterTransition = { enterTransition() },
+            popEnterTransition = { popEnterTransition() },
+            exitTransition = { exitTransition() },
+            popExitTransition = { popExitTransition() },
         ) {
             AddOfficerScreen(
                 onBackClick = { navController.popBackStack() }
             )
         }
         composable(
-            route = Screen.AddRate.route
+            route = Screen.AddRate.route,
+            enterTransition = { enterTransition() },
+            popEnterTransition = { popEnterTransition() },
+            exitTransition = { exitTransition() },
+            popExitTransition = { popExitTransition() },
         ) {
             AddRateScreen(
                 onBackClick = { navController.popBackStack() }
             )
         }
         composable(
-            route = Screen.Account.route
+            route = Screen.Account.route,
+            enterTransition = { enterTransition() },
+            popEnterTransition = { popEnterTransition() },
+            exitTransition = { exitTransition() },
+            popExitTransition = { popExitTransition() },
         ) {
             AccountScreen(
                 onBackClick = { navController.popBackStack() }
@@ -95,8 +127,8 @@ fun RootNavGraph(
  */
 private fun AnimatedContentTransitionScope<NavBackStackEntry>.enterTransition(): EnterTransition {
     return slideIntoContainer(
-        towards = AnimatedContentTransitionScope.SlideDirection.Up,
-        animationSpec = tween(400, easing = FastOutSlowInEasing)
+        towards = AnimatedContentTransitionScope.SlideDirection.Left,
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
     )
 }
 
@@ -105,7 +137,29 @@ private fun AnimatedContentTransitionScope<NavBackStackEntry>.enterTransition():
  */
 private fun AnimatedContentTransitionScope<NavBackStackEntry>.exitTransition(): ExitTransition {
     return slideOutOfContainer(
-        towards = AnimatedContentTransitionScope.SlideDirection.Down,
-        animationSpec = tween(300, easing = FastOutSlowInEasing)
+        towards = AnimatedContentTransitionScope.SlideDirection.Left,
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        targetOffset = { it / 5 }
+    )
+}
+
+/**
+ * Shows transition animation after navigating to screen.
+ */
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.popEnterTransition(): EnterTransition {
+    return slideIntoContainer(
+        towards = AnimatedContentTransitionScope.SlideDirection.Right,
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        initialOffset = { it / 5 }
+    )
+}
+
+/**
+ * Shows transition animation after navigating from screen.
+ */
+private fun AnimatedContentTransitionScope<NavBackStackEntry>.popExitTransition(): ExitTransition {
+    return slideOutOfContainer(
+        towards = AnimatedContentTransitionScope.SlideDirection.Right,
+        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
     )
 }

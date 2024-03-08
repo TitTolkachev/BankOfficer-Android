@@ -1,5 +1,7 @@
 package com.example.trbofficerandroid.presentation.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,17 +29,23 @@ fun HomeNavGraph(
         modifier = modifier.fillMaxSize()
     ) {
         composable(
-            route = HomeScreen.Main.route
+            route = HomeScreen.Main.route,
+            enterTransition = { enterTransition() },
+            exitTransition = { exitTransition() },
         ) {
             MainScreen()
         }
         composable(
-            route = HomeScreen.LoanList.route
+            route = HomeScreen.LoanList.route,
+            enterTransition = { enterTransition() },
+            exitTransition = { exitTransition() },
         ) {
             LoanListScreen()
         }
         composable(
-            route = HomeScreen.UserList.route
+            route = HomeScreen.UserList.route,
+            enterTransition = { enterTransition() },
+            exitTransition = { exitTransition() },
         ) {
             UserListScreen(
                 fabActions = fabActions,
@@ -64,7 +72,9 @@ fun HomeNavGraph(
             )
         }
         composable(
-            route = HomeScreen.RateList.route
+            route = HomeScreen.RateList.route,
+            enterTransition = { enterTransition() },
+            exitTransition = { exitTransition() },
         ) {
             RateListScreen(
                 fabActions = fabActions,
@@ -81,9 +91,25 @@ fun HomeNavGraph(
             )
         }
         composable(
-            route = HomeScreen.More.route
+            route = HomeScreen.More.route,
+            enterTransition = { enterTransition() },
+            exitTransition = { exitTransition() },
         ) {
             MoreScreen()
         }
     }
+}
+
+/**
+ * Shows transition animation after navigating to screen.
+ */
+private fun enterTransition(): EnterTransition {
+    return EnterTransition.None
+}
+
+/**
+ * Shows transition animation after navigating from screen.
+ */
+private fun exitTransition(): ExitTransition {
+    return ExitTransition.None
 }
