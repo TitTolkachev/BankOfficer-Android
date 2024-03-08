@@ -45,7 +45,7 @@ class UserRepositoryImpl(private val api: UserServiceBlockingStub) : UserReposit
             setAddress(user.address)
             setPassportNumber(user.passportNumber)
             user.passportSeries?.let { setPassportSeries(it) }
-            setWhoCreatedId("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            setWhoCreatedId(user.whoCreatedId)
             setEmail(user.email)
             setPassword(user.password)
             setSex(user.sex.name)
@@ -71,7 +71,7 @@ class UserRepositoryImpl(private val api: UserServiceBlockingStub) : UserReposit
             setAddress(user.address)
             setPassportNumber(user.passportNumber)
             user.passportSeries?.let { setPassportSeries(it) }
-            setWhoCreatedId("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+            setWhoCreatedId(user.whoCreatedId)
             setEmail(user.email)
             setPassword(user.password)
             setSex(user.sex.name)

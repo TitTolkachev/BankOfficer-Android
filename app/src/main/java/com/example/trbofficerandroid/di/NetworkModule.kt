@@ -7,8 +7,8 @@ import com.example.trbofficerandroid.ApplicationServiceGrpc
 import com.example.trbofficerandroid.ApplicationServiceGrpc.ApplicationServiceBlockingStub
 import com.example.trbofficerandroid.LoanServiceGrpc
 import com.example.trbofficerandroid.LoanServiceGrpc.LoanServiceBlockingStub
-import com.example.trbofficerandroid.RateServiceGrpc
-import com.example.trbofficerandroid.RateServiceGrpc.RateServiceBlockingStub
+import com.example.trbofficerandroid.TariffServiceGrpc
+import com.example.trbofficerandroid.TariffServiceGrpc.TariffServiceBlockingStub
 import com.example.trbofficerandroid.UserServiceGrpc
 import com.example.trbofficerandroid.UserServiceGrpc.UserServiceBlockingStub
 import io.grpc.Channel
@@ -31,8 +31,8 @@ val networkModule = module {
     single<LoanServiceBlockingStub> {
         LoanServiceGrpc.newBlockingStub(get())
     }
-    single<RateServiceBlockingStub> {
-        RateServiceGrpc.newBlockingStub(get())
+    single<TariffServiceBlockingStub> {
+        TariffServiceGrpc.newBlockingStub(get())
     }
     single<UserServiceBlockingStub> {
         UserServiceGrpc.newBlockingStub(get())

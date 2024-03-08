@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "common.proto";
+
+option java_multiple_files = true;
+option java_package = "com.example.trbofficerandroid";
+option java_outer_classname = "TariffProto";
+
+package tariff;
+
+service TariffService {
+  rpc GetTariffList (GetTariffListRequest) returns (GetTariffListReply);
+  rpc CreateTariff (CreateTariffRequest) returns (CreateTariffReply);
+}
+
+// Get Tariff List
+message GetTariffListRequest{}
+message GetTariffListReply{
+  repeated common.Tariff tariffs = 1;
+}
+
+// Create Tariff
+message CreateTariffRequest{
+  string name = 1;
+  string description = 2;
+  double interestRate = 3;
+  string officerId = 4;
+}
+message CreateTariffReply{
+  common.Tariff tariff = 1;
+}
