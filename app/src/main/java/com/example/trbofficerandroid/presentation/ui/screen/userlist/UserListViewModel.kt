@@ -51,7 +51,25 @@ class UserListViewModel(
     }
 
     private fun loadUsers() = viewModelScope.launch {
-        _clients.update { getClientListUseCase().toUi() }
-        _officers.update { getOfficerListUseCase().toUi() }
+        launch { loadClients() }
+        launch { loadOfficers() }
+    }
+
+    suspend fun loadClients() {
+        val clients = try {
+            getClientListUseCase().toUi()
+        } catch (_: Exception) {
+            emptyList()
+        }
+        _clients.update { clients }
+    }
+
+    suspend fun loadOfficers() {
+        val officers = try {
+            getOfficerListUseCase().toUi()
+        } catch (_: Exception) {
+            emptyList()
+        }
+        _officers.update { officers }
     }
 }

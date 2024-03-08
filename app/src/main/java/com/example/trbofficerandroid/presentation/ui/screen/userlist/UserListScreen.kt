@@ -5,9 +5,11 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
@@ -19,6 +21,8 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -28,8 +32,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.example.trbofficerandroid.R
 import com.example.trbofficerandroid.presentation.theme.AppTheme
 import com.example.trbofficerandroid.presentation.ui.common.BackButton
@@ -39,6 +46,7 @@ import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserL
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState.CLIENT
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState.OFFICER
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserShort
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharedFlow
 import org.koin.androidx.compose.koinViewModel
 
@@ -85,6 +93,9 @@ fun UserListScreen(
         onTabStateChange = remember { { viewModel.onTabStateChange(it) } },
         onSearchBarStateChange = remember { { viewModel.onSearchBarStateChange(it) } },
         onSearchQueryChange = remember { { viewModel.onSearchQueryChange(it) } },
+
+        refreshClients = viewModel::loadClients,
+        refreshOfficers = viewModel::loadOfficers
     )
 }
 
@@ -102,6 +113,9 @@ private fun UserListScreenContent(
     onTabStateChange: (UserListTabState) -> Unit = {},
     onSearchBarStateChange: (Boolean) -> Unit = {},
     onSearchQueryChange: (String) -> Unit = {},
+
+    refreshClients: suspend () -> Unit = {},
+    refreshOfficers: suspend () -> Unit = {},
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         SearchBar(
@@ -130,7 +144,7 @@ private fun UserListScreenContent(
             // TODO
         }
 
-        PrimaryTabRow(selectedTabIndex = activeTab.ordinal) {
+        PrimaryTabRow(modifier = Modifier.zIndex(100f), selectedTabIndex = activeTab.ordinal) {
             Tab(
                 selected = activeTab == CLIENT,
                 onClick = { onTabStateChange(CLIENT) },
@@ -161,10 +175,30 @@ private fun UserListScreenContent(
                         CircularProgressIndicator(Modifier.align(Alignment.Center))
                     }
                 } else {
-                    LazyColumn {
-                        items(items = clients, key = { it.id }) {
-                            UserListItem(item = it, onClick = onClientClick)
+                    val listState = rememberLazyListState()
+                    val refreshState = rememberPullToRefreshState()
+                    if (refreshState.isRefreshing) {
+                        LaunchedEffect(true) {
+                            refreshClients()
+                            delay(500L)
+                            listState.animateScrollToItem(0)
+                            delay(500L)
+                            refreshState.endRefresh()
                         }
+                    }
+                    Box(Modifier.nestedScroll(refreshState.nestedScrollConnection)) {
+                        LazyColumn(
+                            state = listState,
+                            contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp)
+                        ) {
+                            items(items = clients, key = { it.id }) {
+                                UserListItem(item = it, onClick = onClientClick)
+                            }
+                        }
+                        PullToRefreshContainer(
+                            modifier = Modifier.align(Alignment.TopCenter),
+                            state = refreshState,
+                        )
                     }
                 }
             }
@@ -175,10 +209,30 @@ private fun UserListScreenContent(
                         CircularProgressIndicator(Modifier.align(Alignment.Center))
                     }
                 } else {
-                    LazyColumn {
-                        items(items = officers, key = { it.id }) {
-                            UserListItem(item = it, onClick = onOfficerClick)
+                    val listState = rememberLazyListState()
+                    val refreshState = rememberPullToRefreshState()
+                    if (refreshState.isRefreshing) {
+                        LaunchedEffect(true) {
+                            refreshOfficers()
+                            delay(500L)
+                            listState.animateScrollToItem(0)
+                            delay(500L)
+                            refreshState.endRefresh()
                         }
+                    }
+                    Box(Modifier.nestedScroll(refreshState.nestedScrollConnection)) {
+                        LazyColumn(
+                            state = listState,
+                            contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp)
+                        ) {
+                            items(items = officers, key = { it.id }) {
+                                UserListItem(item = it, onClick = onOfficerClick)
+                            }
+                        }
+                        PullToRefreshContainer(
+                            modifier = Modifier.align(Alignment.TopCenter),
+                            state = refreshState,
+                        )
                     }
                 }
             }

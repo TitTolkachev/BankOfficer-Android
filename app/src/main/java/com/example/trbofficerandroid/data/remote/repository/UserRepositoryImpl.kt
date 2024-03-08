@@ -20,8 +20,8 @@ class UserRepositoryImpl(private val api: UserServiceBlockingStub) : UserReposit
         return@withContext try {
             api.getClientList(request).toDomain()
         } catch (e: Exception) {
-            Log.e(TAG, e.message ?: "")
-            emptyList()
+            Log.e(TAG, "Ошибка при получении списка клиентов: ${e.message}")
+            throw e
         }
     }
 
@@ -30,8 +30,8 @@ class UserRepositoryImpl(private val api: UserServiceBlockingStub) : UserReposit
         return@withContext try {
             api.getOfficerList(request).toDomain()
         } catch (e: Exception) {
-            Log.e(TAG, e.message ?: "")
-            emptyList()
+            Log.e(TAG, "Ошибка при получении списка сотрудников: ${e.message}")
+            throw e
         }
     }
 
@@ -56,7 +56,7 @@ class UserRepositoryImpl(private val api: UserServiceBlockingStub) : UserReposit
                 throw Exception(reply.error ?: "Ошибка при создании пользователя")
             reply.id
         } catch (e: Exception) {
-            Log.e(TAG, e.message ?: "Ошибка при создании пользователя")
+            Log.e(TAG, "Ошибка при создании пользователя: ${e.message}")
             throw e
         }
     }
@@ -82,7 +82,7 @@ class UserRepositoryImpl(private val api: UserServiceBlockingStub) : UserReposit
                 throw Exception(reply.error)
             reply.id
         } catch (e: Exception) {
-            Log.e(TAG, e.message ?: "Ошибка при создании сотрудника")
+            Log.e(TAG, "Ошибка при создании сотрудника: ${e.message}")
             throw e
         }
     }
