@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.trbofficerandroid.domain.usecase.GetClientListUseCase
 import com.example.trbofficerandroid.domain.usecase.GetOfficerListUseCase
-import com.example.trbofficerandroid.presentation.ui.screen.userlist.mapper.UserMapper.toUi
+import com.example.trbofficerandroid.presentation.ui.common.mapper.UserMapper.toUi
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState.CLIENT
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserShort

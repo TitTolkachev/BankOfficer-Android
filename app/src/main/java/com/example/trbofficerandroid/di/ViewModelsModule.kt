@@ -17,6 +17,6 @@ val viewModelModule = module {
     viewModel { RateListViewModel() }
     viewModel { AddRateViewModel() }
     viewModel { LoanListViewModel() }
-    viewModel { AddClientViewModel() }
-    viewModel { AddOfficerViewModel() }
+    viewModel { AddClientViewModel(get()) }
+    viewModel { AddOfficerViewModel(get()) }
 }

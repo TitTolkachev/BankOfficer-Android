@@ -33,8 +33,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.trbofficerandroid.R
 import com.example.trbofficerandroid.presentation.theme.AppTheme
 import com.example.trbofficerandroid.presentation.ui.common.BackButton
-import com.example.trbofficerandroid.presentation.ui.screen.userlist.components.ClientListItem
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.components.UserListBottomSheet
+import com.example.trbofficerandroid.presentation.ui.screen.userlist.components.UserListItem
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState.CLIENT
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState.OFFICER
@@ -163,7 +163,7 @@ private fun UserListScreenContent(
                 } else {
                     LazyColumn {
                         items(items = clients, key = { it.id }) {
-                            ClientListItem(item = it, onClick = onClientClick)
+                            UserListItem(item = it, onClick = onClientClick)
                         }
                     }
                 }
@@ -177,7 +177,7 @@ private fun UserListScreenContent(
                 } else {
                     LazyColumn {
                         items(items = officers, key = { it.id }) {
-                            ClientListItem(item = it, onClick = onOfficerClick)
+                            UserListItem(item = it, onClick = onOfficerClick)
                         }
                     }
                 }
