@@ -2,6 +2,7 @@ package com.example.trbofficerandroid.presentation.ui.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -27,7 +28,9 @@ fun SnackbarError(
         contentColor = MaterialTheme.colorScheme.onBackground
     ) {
         Row(
-            modifier = Modifier.clickable { data.dismiss() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { data.dismiss() },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(

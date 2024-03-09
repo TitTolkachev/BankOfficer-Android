@@ -24,8 +24,8 @@ sealed class HomeScreen(val route: String, val icon: Int, val iconFilled: Int, v
         title = "Люди"
     )
 
-    data object RateList : HomeScreen(
-        route = "rates",
+    data object TariffList : HomeScreen(
+        route = "tariffs",
         icon = R.drawable.readiness_score_24,
         iconFilled = R.drawable.readiness_score_filled_24,
         title = "Тарифы"

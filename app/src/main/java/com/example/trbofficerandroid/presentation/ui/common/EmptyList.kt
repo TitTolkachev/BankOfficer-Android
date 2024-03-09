@@ -19,7 +19,7 @@ fun EmptyList() {
     ) {
         Text(
             text = "Список пуст",
-            style = MaterialTheme.typography.displaySmall
+            style = MaterialTheme.typography.titleLarge
         )
     }
 }

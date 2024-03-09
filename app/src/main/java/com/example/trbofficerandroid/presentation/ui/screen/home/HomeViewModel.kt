@@ -21,7 +21,7 @@ class HomeViewModel : ViewModel() {
 
     val fabVisible: StateFlow<Boolean> = _activeScreen.map {
         when (it) {
-            HomeScreen.UserList, HomeScreen.RateList -> true
+            HomeScreen.UserList, HomeScreen.TariffList -> true
             else -> false
         }
     }.stateIn(viewModelScope, WhileSubscribed(), false)
@@ -55,7 +55,7 @@ class HomeViewModel : ViewModel() {
             HomeScreen.Main,
             HomeScreen.LoanList,
             HomeScreen.UserList,
-            HomeScreen.RateList,
+            HomeScreen.TariffList,
             HomeScreen.More,
         )
     }

@@ -188,8 +188,9 @@ private fun UserListScreenContent(
                     }
                     Box(Modifier.nestedScroll(refreshState.nestedScrollConnection)) {
                         LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
                             state = listState,
-                            contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp)
+                            contentPadding = PaddingValues(bottom = 24.dp)
                         ) {
                             items(items = clients, key = { it.id }) {
                                 UserListItem(item = it, onClick = onClientClick)
@@ -222,8 +223,9 @@ private fun UserListScreenContent(
                     }
                     Box(Modifier.nestedScroll(refreshState.nestedScrollConnection)) {
                         LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
                             state = listState,
-                            contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp)
+                            contentPadding = PaddingValues(bottom = 24.dp)
                         ) {
                             items(items = officers, key = { it.id }) {
                                 UserListItem(item = it, onClick = onOfficerClick)

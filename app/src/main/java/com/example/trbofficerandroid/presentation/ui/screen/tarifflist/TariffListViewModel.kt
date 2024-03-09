@@ -1,50 +1,36 @@
 package com.example.trbofficerandroid.presentation.ui.screen.tarifflist
 
 import androidx.lifecycle.ViewModel
-import com.example.trbofficerandroid.presentation.ui.screen.tarifflist.model.TariffShort
+import androidx.lifecycle.viewModelScope
+import com.example.trbofficerandroid.domain.model.Tariff
+import com.example.trbofficerandroid.domain.usecase.GetTariffListUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class TariffListViewModel : ViewModel() {
+class TariffListViewModel(
+    private val getTariffListUseCase: GetTariffListUseCase
+) : ViewModel() {
 
-    private val _tariffList: MutableStateFlow<List<TariffShort>?> = MutableStateFlow(null)
-    val tariffList: StateFlow<List<TariffShort>?> = _tariffList.asStateFlow()
+    private val _tariffList: MutableStateFlow<List<Tariff>?> = MutableStateFlow(null)
+    val tariffList: StateFlow<List<Tariff>?> = _tariffList.asStateFlow()
 
     init {
         loadData()
     }
 
-    private fun loadData() {
-        _tariffList.update {
-            listOf(
-                TariffShort(
-                    id = "1",
-                    name = "Обычный тариф",
-                    interestRate = 15.5
-                ),
-                TariffShort(
-                    id = "2",
-                    name = "Лучший февральский тариф",
-                    interestRate = 16.5
-                ),
-                TariffShort(
-                    id = "3",
-                    name = "Лучший мартовский тариф",
-                    interestRate = 10.5
-                ),
-                TariffShort(
-                    id = "4",
-                    name = "Лучший апрельский тариф",
-                    interestRate = 11.5
-                ),
-                TariffShort(
-                    id = "5",
-                    name = "Семейный",
-                    interestRate = 1.5
-                ),
-            )
+    suspend fun loadTariffs() {
+        val list = try {
+            getTariffListUseCase()
+        } catch (_: Exception) {
+            emptyList()
         }
+        _tariffList.update { list }
+    }
+
+    private fun loadData() {
+        viewModelScope.launch { loadTariffs() }
     }
 }

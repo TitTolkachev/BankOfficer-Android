@@ -72,19 +72,21 @@ fun HomeNavGraph(
             )
         }
         composable(
-            route = HomeScreen.RateList.route,
+            route = HomeScreen.TariffList.route,
             enterTransition = { enterTransition() },
             exitTransition = { exitTransition() },
         ) {
             TariffListScreen(
                 fabActions = fabActions,
-                onRateClick = {
-                    rootNavController.navigate(Screen.Rate.route) {
-                        launchSingleTop = true
+                onTariffClick = {
+                    with(it) {
+                        rootNavController.navigate("${Screen.Tariff.route}/$id/$additionDate/$name/$description/$interestRate/$officerId") {
+                            launchSingleTop = true
+                        }
                     }
                 },
-                onAddRateClick = {
-                    rootNavController.navigate(Screen.AddRate.route) {
+                onAddTariffClick = {
+                    rootNavController.navigate(Screen.AddTariff.route) {
                         launchSingleTop = true
                     }
                 }

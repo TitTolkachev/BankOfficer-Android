@@ -10,8 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.trbofficerandroid.presentation.ui.screen.account.AccountScreen
 import com.example.trbofficerandroid.presentation.ui.screen.addclient.AddClientScreen
 import com.example.trbofficerandroid.presentation.ui.screen.addofficer.AddOfficerScreen
@@ -42,13 +44,28 @@ fun RootNavGraph(
             HomeScreen(rootNavController = navController)
         }
         composable(
-            route = Screen.Rate.route,
+            route = "${Screen.Tariff.route}/{id}/{additionDate}/{name}/{description}/{interestRate}/{officerId}",
+            arguments = listOf(
+                navArgument("id") { type = NavType.StringType },
+                navArgument("additionDate") { type = NavType.LongType },
+                navArgument("name") { type = NavType.StringType },
+                navArgument("description") { type = NavType.StringType },
+                navArgument("interestRate") { type = NavType.FloatType },
+                navArgument("officerId") { type = NavType.StringType },
+            ),
             enterTransition = { enterTransition() },
             popEnterTransition = { popEnterTransition() },
             exitTransition = { exitTransition() },
             popExitTransition = { popExitTransition() },
         ) {
-            TariffScreen()
+            TariffScreen(
+                navigateBack = { navController.popBackStack() },
+                navigateToOfficer = { officerId ->
+                    navController.navigate("${Screen.Officer.route}/$officerId") {
+                        launchSingleTop = true
+                    }
+                }
+            )
         }
         composable(
             route = Screen.Client.route,
@@ -67,7 +84,8 @@ fun RootNavGraph(
             )
         }
         composable(
-            route = Screen.Officer.route,
+            route = "${Screen.Officer.route}/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.StringType }),
             enterTransition = { enterTransition() },
             popEnterTransition = { popEnterTransition() },
             exitTransition = { exitTransition() },
@@ -98,7 +116,7 @@ fun RootNavGraph(
             )
         }
         composable(
-            route = Screen.AddRate.route,
+            route = Screen.AddTariff.route,
             enterTransition = { enterTransition() },
             popEnterTransition = { popEnterTransition() },
             exitTransition = { exitTransition() },

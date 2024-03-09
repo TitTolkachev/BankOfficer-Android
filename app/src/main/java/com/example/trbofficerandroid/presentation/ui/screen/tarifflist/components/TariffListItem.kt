@@ -16,11 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.trbofficerandroid.domain.model.Tariff
 import com.example.trbofficerandroid.presentation.theme.AppTheme
-import com.example.trbofficerandroid.presentation.ui.screen.tarifflist.model.TariffShort
 
 @Composable
-fun TariffListItem(item: TariffShort, onClick: () -> Unit = {}) {
+fun TariffListItem(item: Tariff, onClick: () -> Unit = {}) {
     OutlinedCard(onClick = onClick) {
         Column(
             Modifier
@@ -55,11 +55,14 @@ private fun Preview() {
     AppTheme {
         Surface {
             TariffListItem(
-                item = TariffShort(
-                    id = "",
-                    name = "Лучший февральский тариф",
-                    interestRate = 12.5
-                )
+                item = Tariff(
+                    id = "1",
+                    additionDate = 0,
+                    name = "Обычный тариф",
+                    description = "Описание",
+                    interestRate = 15.5,
+                    officerId = ""
+                ),
             )
         }
     }

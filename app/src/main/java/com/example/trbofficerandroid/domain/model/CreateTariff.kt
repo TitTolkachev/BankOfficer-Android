@@ -4,5 +4,5 @@ data class CreateTariff(
     val name: String,
     val description: String,
     val interestRate: Double,
-    val officerId: String,
+    val officerId: String? = null,
 )
