@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import com.example.trbofficerandroid.presentation.ui.screen.loanlist.LoanListScreen
 import com.example.trbofficerandroid.presentation.ui.screen.main.MainScreen
 import com.example.trbofficerandroid.presentation.ui.screen.more.MoreScreen
-import com.example.trbofficerandroid.presentation.ui.screen.ratelist.RateListScreen
+import com.example.trbofficerandroid.presentation.ui.screen.tarifflist.TariffListScreen
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.UserListScreen
 import kotlinx.coroutines.flow.SharedFlow
 
@@ -76,7 +76,7 @@ fun HomeNavGraph(
             enterTransition = { enterTransition() },
             exitTransition = { exitTransition() },
         ) {
-            RateListScreen(
+            TariffListScreen(
                 fabActions = fabActions,
                 onRateClick = {
                     rootNavController.navigate(Screen.Rate.route) {

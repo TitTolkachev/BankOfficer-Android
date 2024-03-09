@@ -1,4 +1,4 @@
-package com.example.trbofficerandroid.presentation.ui.screen.ratelist
+package com.example.trbofficerandroid.presentation.ui.screen.tarifflist
 
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Box
@@ -19,19 +19,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.trbofficerandroid.presentation.theme.AppTheme
 import com.example.trbofficerandroid.presentation.ui.common.EmptyList
-import com.example.trbofficerandroid.presentation.ui.screen.ratelist.components.RateListItem
-import com.example.trbofficerandroid.presentation.ui.screen.ratelist.model.RateShort
+import com.example.trbofficerandroid.presentation.ui.screen.tarifflist.components.TariffListItem
+import com.example.trbofficerandroid.presentation.ui.screen.tarifflist.model.TariffShort
 import kotlinx.coroutines.flow.SharedFlow
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun RateListScreen(
+fun TariffListScreen(
     fabActions: SharedFlow<Unit>,
     onRateClick: (String) -> Unit,
     onAddRateClick: () -> Unit,
 ) {
-    val viewModel: RateListViewModel = koinViewModel()
-    val items by viewModel.rateList.collectAsState()
+    val viewModel: TariffListViewModel = koinViewModel()
+    val items by viewModel.tariffList.collectAsState()
 
     // Fab Actions Handling
     LaunchedEffect(Unit) {
@@ -40,15 +40,15 @@ fun RateListScreen(
         }
     }
 
-    RateListScreenContent(
+    TariffListScreenContent(
         items = items,
         onRateClick = onRateClick
     )
 }
 
 @Composable
-private fun RateListScreenContent(
-    items: List<RateShort>?,
+private fun TariffListScreenContent(
+    items: List<TariffShort>?,
     onRateClick: (String) -> Unit = {}
 ) {
     if (items == null) {
@@ -68,7 +68,7 @@ private fun RateListScreenContent(
             horizontalArrangement = spacedBy(8.dp),
         ) {
             items(items = items, key = { it.id }) {
-                RateListItem(item = it, onClick = { onRateClick(it.id) })
+                TariffListItem(item = it, onClick = { onRateClick(it.id) })
             }
         }
     }
@@ -79,32 +79,32 @@ private fun RateListScreenContent(
 private fun Preview() {
     AppTheme {
         Surface {
-            RateListScreenContent(
+            TariffListScreenContent(
                 items = listOf(
-                    RateShort(
+                    TariffShort(
                         id = "1",
                         name = "Обычный тариф",
-                        percentageRate = 15.5
+                        interestRate = 15.5
                     ),
-                    RateShort(
+                    TariffShort(
                         id = "2",
                         name = "Лучший февральский тариф",
-                        percentageRate = 16.5
+                        interestRate = 16.5
                     ),
-                    RateShort(
+                    TariffShort(
                         id = "3",
                         name = "Лучший мартовский тариф",
-                        percentageRate = 10.5
+                        interestRate = 10.5
                     ),
-                    RateShort(
+                    TariffShort(
                         id = "4",
                         name = "Лучший апрельский тариф",
-                        percentageRate = 11.5
+                        interestRate = 11.5
                     ),
-                    RateShort(
+                    TariffShort(
                         id = "5",
                         name = "Семейный",
-                        percentageRate = 1.5
+                        interestRate = 1.5
                     ),
                 )
             )

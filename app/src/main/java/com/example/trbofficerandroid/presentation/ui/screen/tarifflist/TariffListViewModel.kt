@@ -1,48 +1,48 @@
-package com.example.trbofficerandroid.presentation.ui.screen.ratelist
+package com.example.trbofficerandroid.presentation.ui.screen.tarifflist
 
 import androidx.lifecycle.ViewModel
-import com.example.trbofficerandroid.presentation.ui.screen.ratelist.model.RateShort
+import com.example.trbofficerandroid.presentation.ui.screen.tarifflist.model.TariffShort
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class RateListViewModel : ViewModel() {
+class TariffListViewModel : ViewModel() {
 
-    private val _rateList: MutableStateFlow<List<RateShort>?> = MutableStateFlow(null)
-    val rateList: StateFlow<List<RateShort>?> = _rateList.asStateFlow()
+    private val _tariffList: MutableStateFlow<List<TariffShort>?> = MutableStateFlow(null)
+    val tariffList: StateFlow<List<TariffShort>?> = _tariffList.asStateFlow()
 
     init {
-        loadRateList()
+        loadData()
     }
 
-    private fun loadRateList() {
-        _rateList.update {
+    private fun loadData() {
+        _tariffList.update {
             listOf(
-                RateShort(
+                TariffShort(
                     id = "1",
                     name = "Обычный тариф",
-                    percentageRate = 15.5
+                    interestRate = 15.5
                 ),
-                RateShort(
+                TariffShort(
                     id = "2",
                     name = "Лучший февральский тариф",
-                    percentageRate = 16.5
+                    interestRate = 16.5
                 ),
-                RateShort(
+                TariffShort(
                     id = "3",
                     name = "Лучший мартовский тариф",
-                    percentageRate = 10.5
+                    interestRate = 10.5
                 ),
-                RateShort(
+                TariffShort(
                     id = "4",
                     name = "Лучший апрельский тариф",
-                    percentageRate = 11.5
+                    interestRate = 11.5
                 ),
-                RateShort(
+                TariffShort(
                     id = "5",
                     name = "Семейный",
-                    percentageRate = 1.5
+                    interestRate = 1.5
                 ),
             )
         }

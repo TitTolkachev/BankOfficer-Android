@@ -1,4 +1,4 @@
-package com.example.trbofficerandroid.presentation.ui.screen.rate
+package com.example.trbofficerandroid.presentation.ui.screen.tariff
 
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -7,12 +7,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.trbofficerandroid.presentation.theme.AppTheme
 
 @Composable
-fun RateScreen() {
-    RateScreenContent()
+fun TariffScreen() {
+    TariffScreenContent()
 }
 
 @Composable
-private fun RateScreenContent() {
+private fun TariffScreenContent() {
     Text("TODO: Экран просмотра тарифа по кредиту")
 }
 
@@ -21,7 +21,7 @@ private fun RateScreenContent() {
 private fun Preview() {
     AppTheme {
         Surface {
-            RateScreenContent()
+            TariffScreenContent()
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.trbofficerandroid.presentation.ui.screen.ratelist.components
+package com.example.trbofficerandroid.presentation.ui.screen.tarifflist.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,10 +17,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.trbofficerandroid.presentation.theme.AppTheme
-import com.example.trbofficerandroid.presentation.ui.screen.ratelist.model.RateShort
+import com.example.trbofficerandroid.presentation.ui.screen.tarifflist.model.TariffShort
 
 @Composable
-fun RateListItem(item: RateShort, onClick: () -> Unit = {}) {
+fun TariffListItem(item: TariffShort, onClick: () -> Unit = {}) {
     OutlinedCard(onClick = onClick) {
         Column(
             Modifier
@@ -42,7 +42,7 @@ fun RateListItem(item: RateShort, onClick: () -> Unit = {}) {
             ) {
                 Text(
                     modifier = Modifier.padding(vertical = 6.dp, horizontal = 10.dp),
-                    text = "${item.percentageRate}%"
+                    text = "${item.interestRate}%"
                 )
             }
         }
@@ -54,11 +54,11 @@ fun RateListItem(item: RateShort, onClick: () -> Unit = {}) {
 private fun Preview() {
     AppTheme {
         Surface {
-            RateListItem(
-                item = RateShort(
+            TariffListItem(
+                item = TariffShort(
                     id = "",
                     name = "Лучший февральский тариф",
-                    percentageRate = 12.5
+                    interestRate = 12.5
                 )
             )
         }

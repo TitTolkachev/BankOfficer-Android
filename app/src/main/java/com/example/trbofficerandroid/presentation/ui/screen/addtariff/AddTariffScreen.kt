@@ -1,4 +1,4 @@
-package com.example.trbofficerandroid.presentation.ui.screen.addrate
+package com.example.trbofficerandroid.presentation.ui.screen.addtariff
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,31 +26,31 @@ import com.example.trbofficerandroid.presentation.ui.common.BackButton
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun AddRateScreen(
+fun AddTariffScreen(
     onBackClick: () -> Unit,
 ) {
-    val viewModel: AddRateViewModel = koinViewModel()
+    val viewModel: AddTariffViewModel = koinViewModel()
     val name by viewModel.name.collectAsState()
-    val percentageRate by viewModel.percentageRate.collectAsState()
+    val interestRate by viewModel.interestRate.collectAsState()
 
-    AddRateScreenContent(
+    AddTariffScreenContent(
         name = name,
-        percentageRate = percentageRate,
+        interestRate = interestRate,
 
         onNameChange = remember { { viewModel.onNameChange(it) } },
-        onPercentageRateChange = remember { { viewModel.onPercentageRateChange(it) } },
+        onInterestRateChange = remember { { viewModel.onInterestRateChange(it) } },
         onBackClick = onBackClick
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AddRateScreenContent(
+private fun AddTariffScreenContent(
     name: String = "",
-    percentageRate: String = "",
+    interestRate: String = "",
 
     onNameChange: (String) -> Unit = {},
-    onPercentageRateChange: (String) -> Unit = {},
+    onInterestRateChange: (String) -> Unit = {},
     onBackClick: () -> Unit = {},
 ) {
     Scaffold(
@@ -79,9 +79,9 @@ private fun AddRateScreenContent(
             Text(text = "Процентная ставка, %")
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = percentageRate,
+                value = interestRate,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                onValueChange = onPercentageRateChange,
+                onValueChange = onInterestRateChange,
                 singleLine = true
             )
 
@@ -101,7 +101,7 @@ private fun AddRateScreenContent(
 private fun Preview() {
     AppTheme {
         Surface {
-            AddRateScreenContent()
+            AddTariffScreenContent()
         }
     }
 }

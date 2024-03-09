@@ -15,11 +15,11 @@ import androidx.navigation.compose.composable
 import com.example.trbofficerandroid.presentation.ui.screen.account.AccountScreen
 import com.example.trbofficerandroid.presentation.ui.screen.addclient.AddClientScreen
 import com.example.trbofficerandroid.presentation.ui.screen.addofficer.AddOfficerScreen
-import com.example.trbofficerandroid.presentation.ui.screen.addrate.AddRateScreen
+import com.example.trbofficerandroid.presentation.ui.screen.addtariff.AddTariffScreen
 import com.example.trbofficerandroid.presentation.ui.screen.client.ClientScreen
 import com.example.trbofficerandroid.presentation.ui.screen.home.HomeScreen
 import com.example.trbofficerandroid.presentation.ui.screen.officer.OfficerScreen
-import com.example.trbofficerandroid.presentation.ui.screen.rate.RateScreen
+import com.example.trbofficerandroid.presentation.ui.screen.tariff.TariffScreen
 
 @Composable
 fun RootNavGraph(
@@ -48,7 +48,7 @@ fun RootNavGraph(
             exitTransition = { exitTransition() },
             popExitTransition = { popExitTransition() },
         ) {
-            RateScreen()
+            TariffScreen()
         }
         composable(
             route = Screen.Client.route,
@@ -104,7 +104,7 @@ fun RootNavGraph(
             exitTransition = { exitTransition() },
             popExitTransition = { popExitTransition() },
         ) {
-            AddRateScreen(
+            AddTariffScreen(
                 onBackClick = { navController.popBackStack() }
             )
         }
