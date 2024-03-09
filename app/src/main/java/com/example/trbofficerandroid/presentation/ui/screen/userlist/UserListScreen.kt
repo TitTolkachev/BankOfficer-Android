@@ -53,8 +53,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun UserListScreen(
     fabActions: SharedFlow<Unit>,
-    onClientClick: () -> Unit,
-    onOfficerClick: () -> Unit,
+    onClientClick: (String) -> Unit,
+    onOfficerClick: (String) -> Unit,
     onAddClientClick: () -> Unit,
     onAddOfficerClick: () -> Unit,
 ) {
@@ -108,8 +108,8 @@ private fun UserListScreenContent(
     searchActive: Boolean = false,
     searchQuery: String = "",
 
-    onClientClick: () -> Unit = {},
-    onOfficerClick: () -> Unit = {},
+    onClientClick: (String) -> Unit = {},
+    onOfficerClick: (String) -> Unit = {},
     onTabStateChange: (UserListTabState) -> Unit = {},
     onSearchBarStateChange: (Boolean) -> Unit = {},
     onSearchQueryChange: (String) -> Unit = {},
@@ -193,7 +193,7 @@ private fun UserListScreenContent(
                             contentPadding = PaddingValues(bottom = 24.dp)
                         ) {
                             items(items = clients, key = { it.id }) {
-                                UserListItem(item = it, onClick = onClientClick)
+                                UserListItem(item = it, onClick = { onClientClick(it.id) })
                             }
                         }
                         PullToRefreshContainer(
@@ -228,7 +228,7 @@ private fun UserListScreenContent(
                             contentPadding = PaddingValues(bottom = 24.dp)
                         ) {
                             items(items = officers, key = { it.id }) {
-                                UserListItem(item = it, onClick = onOfficerClick)
+                                UserListItem(item = it, onClick = { onOfficerClick(it.id) })
                             }
                         }
                         PullToRefreshContainer(

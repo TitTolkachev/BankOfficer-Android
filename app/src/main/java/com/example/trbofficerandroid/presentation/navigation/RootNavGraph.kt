@@ -68,7 +68,8 @@ fun RootNavGraph(
             )
         }
         composable(
-            route = Screen.Client.route,
+            route = "${Screen.Client.route}/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.StringType }),
             enterTransition = { enterTransition() },
             popEnterTransition = { popEnterTransition() },
             exitTransition = { exitTransition() },
@@ -91,7 +92,12 @@ fun RootNavGraph(
             exitTransition = { exitTransition() },
             popExitTransition = { popExitTransition() },
         ) {
-            OfficerScreen()
+            OfficerScreen(
+                navigateBack = { navController.popBackStack() },
+                showOfficer = {
+                    navController.navigate("${Screen.Officer.route}/$it")
+                }
+            )
         }
         composable(
             route = Screen.AddClient.route,

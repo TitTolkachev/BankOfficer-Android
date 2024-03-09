@@ -5,6 +5,7 @@ import com.example.trbofficerandroid.presentation.ui.screen.addofficer.AddOffice
 import com.example.trbofficerandroid.presentation.ui.screen.addtariff.AddTariffViewModel
 import com.example.trbofficerandroid.presentation.ui.screen.home.HomeViewModel
 import com.example.trbofficerandroid.presentation.ui.screen.loanlist.LoanListViewModel
+import com.example.trbofficerandroid.presentation.ui.screen.officer.OfficerViewModel
 import com.example.trbofficerandroid.presentation.ui.screen.tariff.TariffViewModel
 import com.example.trbofficerandroid.presentation.ui.screen.tarifflist.TariffListViewModel
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.UserListViewModel
@@ -21,4 +22,5 @@ val viewModelModule = module {
     viewModel { AddClientViewModel(get()) }
     viewModel { AddOfficerViewModel(get()) }
     viewModel { TariffViewModel(get()) }
+    viewModel { OfficerViewModel(get(), get(), get()) }
 }

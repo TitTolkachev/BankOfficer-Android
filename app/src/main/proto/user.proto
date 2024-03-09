@@ -11,6 +11,10 @@ package user;
 service UserService {
   rpc GetClientList (GetClientListRequest) returns (GetClientListReply);
   rpc GetOfficerList (GetOfficerListRequest) returns (GetOfficerListReply);
+  rpc GetClient (GetClientRequest) returns (GetClientReply);
+  rpc GetOfficer (GetOfficerRequest) returns (GetOfficerReply);
+  rpc BlockClient (BlockClientRequest) returns (BlockClientReply);
+  rpc BlockOfficer (BlockOfficerRequest) returns (BlockOfficerReply);
   rpc CreateClient (CreateClientRequest) returns (CreateClientReply);
   rpc CreateOfficer (CreateOfficerRequest) returns (CreateOfficerReply);
 }
@@ -26,6 +30,36 @@ message GetOfficerListRequest{}
 message GetOfficerListReply{
   repeated common.UserShort officers = 1;
 }
+
+// Get Client
+message GetClientRequest{
+  string id = 1;
+}
+message GetClientReply{
+  common.Client client = 1;
+}
+
+// Get Officer
+message GetOfficerRequest{
+  string id = 1;
+}
+message GetOfficerReply{
+  common.Officer officer = 1;
+}
+
+// Block Client
+message BlockClientRequest{
+  string clientId = 1;
+  string officerId = 2;
+}
+message BlockClientReply{}
+
+// Block Officer
+message BlockOfficerRequest{
+  string officerId = 1;
+  string whoBlocksId = 2;
+}
+message BlockOfficerReply{}
 
 // Create Client
 message CreateClientRequest{
@@ -43,8 +77,7 @@ message CreateClientRequest{
   string sex = 12;
 }
 message CreateClientReply{
-  optional string id = 1;
-  optional string error = 2;
+  string id = 1;
 }
 
 // Create Officer
@@ -63,6 +96,5 @@ message CreateOfficerRequest{
   string sex = 12;
 }
 message CreateOfficerReply{
-  optional string id = 1;
-  optional string error = 2;
+  string id = 1;
 }
