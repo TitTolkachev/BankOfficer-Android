@@ -5,21 +5,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.Surface
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.trbofficerandroid.presentation.theme.AppTheme
-import com.example.trbofficerandroid.presentation.ui.screen.client.model.AccountShort
-import com.example.trbofficerandroid.presentation.ui.screen.client.model.AccountState.OPEN
-import com.example.trbofficerandroid.presentation.ui.screen.client.model.AccountType.DEPOSIT
-import com.example.trbofficerandroid.presentation.ui.screen.client.model.AccountType.LOAN
+import com.example.trbofficerandroid.domain.model.Account
+import com.example.trbofficerandroid.domain.model.AccountType
 
 @Composable
-fun AccountListItem(item: AccountShort, onClick: () -> Unit) {
+fun AccountListItem(item: Account, onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
@@ -28,33 +24,25 @@ fun AccountListItem(item: AccountShort, onClick: () -> Unit) {
         ListItem(
             headlineContent = {
                 Column {
-                    Text(text = item.number)
-                    Text(text = "${item.balance}₽")
+                    Text(
+                        text = item.id,
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                    Text(
+                        text = "${item.balance / 100}₽",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
                 }
             },
             supportingContent = {
-                if (item.type == LOAN)
-                    Text(text = "(Кредитный)")
+                if (item.type == AccountType.LOAN)
+                    Text(
+                        text = "Кредитный",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
             },
         )
         HorizontalDivider()
-    }
-}
-
-@Preview
-@Composable
-private fun Preview() {
-    AppTheme {
-        Surface {
-            AccountListItem(
-                AccountShort(
-                    id = "",
-                    number = "12321321313",
-                    type = DEPOSIT,
-                    balance = 11,
-                    state = OPEN
-                )
-            ) {}
-        }
     }
 }

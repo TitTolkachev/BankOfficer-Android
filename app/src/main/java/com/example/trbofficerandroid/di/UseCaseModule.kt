@@ -6,6 +6,8 @@ import com.example.trbofficerandroid.domain.usecase.BlockOfficerUseCase
 import com.example.trbofficerandroid.domain.usecase.CreateClientUseCase
 import com.example.trbofficerandroid.domain.usecase.CreateOfficerUseCase
 import com.example.trbofficerandroid.domain.usecase.CreateTariffUseCase
+import com.example.trbofficerandroid.domain.usecase.GetAccountListUseCase
+import com.example.trbofficerandroid.domain.usecase.GetAccountUseCase
 import com.example.trbofficerandroid.domain.usecase.GetApplicationListUseCase
 import com.example.trbofficerandroid.domain.usecase.GetApplicationUseCase
 import com.example.trbofficerandroid.domain.usecase.GetClientListUseCase
@@ -23,6 +25,8 @@ import org.koin.dsl.module
 val useCaseModule = module {
 
     // Account
+    factory { GetAccountListUseCase(get()) }
+    factory { GetAccountUseCase(get()) }
 
     // Application
     factory { GetApplicationListUseCase(get()) }
@@ -32,6 +36,7 @@ val useCaseModule = module {
 
     // Loan
     factory { GetLoanListUseCase(get()) }
+    factory { GetAccountUseCase(get()) }
 
     // Tariff
     factory { GetTariffListUseCase(get()) }

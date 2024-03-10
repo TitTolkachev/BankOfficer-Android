@@ -2,8 +2,10 @@ package com.example.trbofficerandroid.data.remote.repository
 
 import android.util.Log
 import com.example.trbofficerandroid.GetLoanListRequest
+import com.example.trbofficerandroid.GetLoanRequest
 import com.example.trbofficerandroid.LoanServiceGrpc
 import com.example.trbofficerandroid.data.remote.mapper.LoanMapper.toDomain
+import com.example.trbofficerandroid.domain.model.Loan
 import com.example.trbofficerandroid.domain.model.LoanShort
 import com.example.trbofficerandroid.domain.repository.LoanRepository
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +21,16 @@ class LoanRepositoryImpl(
             api.getLoanList(request).toDomain()
         } catch (e: Exception) {
             Log.e(TAG, "Ошибка при получении списка кредитов: ${e.message}")
+            throw e
+        }
+    }
+
+    override suspend fun getLoan(id: String): Loan = withContext(Dispatchers.IO) {
+        val request = GetLoanRequest.newBuilder().build()
+        return@withContext try {
+            api.getLoan(request).loan.toDomain()
+        } catch (e: Exception) {
+            Log.e(TAG, "Ошибка при получении информации о кредите: ${e.message}")
             throw e
         }
     }

@@ -1,123 +1,322 @@
 package com.example.trbofficerandroid.presentation.ui.screen.client
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.trbofficerandroid.domain.model.Account
+import com.example.trbofficerandroid.domain.model.AccountType.DEPOSIT
+import com.example.trbofficerandroid.domain.model.Client
+import com.example.trbofficerandroid.domain.model.Sex
 import com.example.trbofficerandroid.presentation.theme.AppTheme
 import com.example.trbofficerandroid.presentation.ui.common.BackButton
+import com.example.trbofficerandroid.presentation.ui.common.SnackbarError
 import com.example.trbofficerandroid.presentation.ui.screen.client.components.AccountListItem
-import com.example.trbofficerandroid.presentation.ui.screen.client.model.AccountShort
-import com.example.trbofficerandroid.presentation.ui.screen.client.model.AccountState
-import com.example.trbofficerandroid.presentation.ui.screen.client.model.AccountType
-import com.example.trbofficerandroid.presentation.ui.screen.client.model.Client
+import org.koin.androidx.compose.koinViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun ClientScreen(
     onBackClick: () -> Unit,
-    navigateToAccount: (String) -> Unit
+    navigateToAccount: (String) -> Unit,
+    navigateToLoan: (String) -> Unit,
+    showOfficer: (String) -> Unit,
 ) {
+    val viewModel: ClientViewModel = koinViewModel()
+    val shackBarHostState = remember { SnackbarHostState() }
 
-    val client = Client(
-        id = "1",
-        firstName = "First Name",
-        lastName = "Last Name",
-        patronymicName = "Patr. Name",
-        phoneNumber = "8800-555-35-35",
-        address = "SDFsdfsDfsdFSD",
-        passportNumber = "sdfsdf",
-        passportSeries = "sdfsdf",
-        isBlocked = false,
-        whoBlocked = "",
-        whoCreated = ""
-    )
-
-    val accounts = listOf(
-        AccountShort(
-            id = "1",
-            number = "12321321313",
-            type = AccountType.DEPOSIT,
-            balance = 11,
-            state = AccountState.OPEN
-        ),
-        AccountShort(
-            id = "2",
-            number = "22222222222",
-            type = AccountType.DEPOSIT,
-            balance = 120301,
-            state = AccountState.OPEN
-        ),
-        AccountShort(
-            id = "3",
-            number = "12312311111",
-            type = AccountType.DEPOSIT,
-            balance = 0,
-            state = AccountState.CLOSED
-        ),
-        AccountShort(
-            id = "3",
-            number = "66666666666",
-            type = AccountType.LOAN,
-            balance = 999999999,
-            state = AccountState.OPEN
-        ),
-    )
+    LaunchedEffect(true) {
+        viewModel.error.collect {
+            shackBarHostState.showSnackbar(it)
+        }
+    }
 
     ClientScreenContent(
-        client = client,
-        accounts = accounts,
+        user = viewModel.client.collectAsState().value,
+        accounts = viewModel.accounts.collectAsState().value,
+        loading = viewModel.loading.collectAsState().value,
+        shackBarHostState = shackBarHostState,
 
         onBackClick = onBackClick,
-        onAccountClick = navigateToAccount
+        onAccountClick = navigateToAccount,
+        onLoanClick = navigateToLoan,
+        showOfficer = showOfficer,
+        blockUser = remember { { viewModel.blockUser() } },
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ClientScreenContent(
-    client: Client,
-    accounts: List<AccountShort>,
+    user: Client? = null,
+    accounts: List<Account>? = listOf(),
+    loading: Boolean = false,
+    shackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
 
     onBackClick: () -> Unit = {},
     onAccountClick: (String) -> Unit = {},
+    onLoanClick: (String) -> Unit = {},
+    showOfficer: (String) -> Unit = {},
+    blockUser: () -> Unit = {},
 ) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
+                title = { Text("Клиент") },
                 navigationIcon = { BackButton(onBackClick) },
-                title = { Text(text = "Клиент") }
+                actions = {
+                    AnimatedVisibility(visible = loading, enter = scaleIn(), exit = scaleOut()) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            strokeWidth = 2.dp,
+                            strokeCap = StrokeCap.Round
+                        )
+                    }
+                    Spacer(Modifier.width(16.dp))
+                }
             )
         },
+        snackbarHost = {
+            SnackbarHost(hostState = shackBarHostState, snackbar = { SnackbarError(it) })
+        }
     ) { paddingValues ->
-        Column(Modifier.padding(paddingValues)) {
-            Text(
-                text = client.firstName
-            )
-            Text(
-                text = client.lastName
-            )
-            client.patronymicName?.let {
-                Text(
-                    text = client.patronymicName
-                )
+        if (user == null || accounts == null) {
+            Box(Modifier.fillMaxSize()) {
+                CircularProgressIndicator(Modifier.align(Alignment.Center))
             }
+        } else {
+            Column(
+                Modifier
+                    .padding(paddingValues)
+                    .padding(horizontal = 16.dp)
+            ) {
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    // Person
+                    Text(
+                        style = MaterialTheme.typography.headlineSmall,
+                        text = "Информация"
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "Фамилия") },
+                        value = user.lastName,
+                        onValueChange = {},
+                        readOnly = true,
+                        singleLine = true
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "Имя") },
+                        value = user.firstName,
+                        onValueChange = {},
+                        readOnly = true,
+                        singleLine = true
+                    )
+                    if (!user.patronymic.isNullOrBlank()) {
+                        Spacer(Modifier.height(8.dp))
+                        OutlinedTextField(
+                            modifier = Modifier.fillMaxWidth(),
+                            label = { Text(text = "Отчество") },
+                            value = user.patronymic,
+                            onValueChange = {},
+                            readOnly = true,
+                            singleLine = true
+                        )
+                    }
 
-            Text(text = client.phoneNumber)
-            Text(text = client.address)
-            Text(text = client.passportNumber)
-            Text(text = client.passportSeries)
+                    // Data
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "Телефон") },
+                        value = user.phoneNumber,
+                        onValueChange = {},
+                        readOnly = true,
+                        singleLine = true
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "Адрес") },
+                        value = user.address,
+                        onValueChange = {},
+                        readOnly = true,
+                        singleLine = true
+                    )
 
-            Text(text = "Счета:")
-            accounts.forEach {
-                AccountListItem(
-                    item = it,
-                    onClick = { onAccountClick(it.id) }
-                )
+                    // Birth Date
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = SimpleDateFormat(
+                            "d MMMM yyyy",
+                            Locale.getDefault()
+                        ).format(Date(user.birthDate)),
+                        onValueChange = {},
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "Дата рождения") },
+                        readOnly = true,
+                        singleLine = true,
+                    )
+
+                    // Sex
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = if (user.sex == Sex.MALE) "Мужчина" else "Женщина",
+                        onValueChange = {},
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "Пол") },
+                        readOnly = true,
+                        singleLine = true,
+                    )
+
+                    // Document
+                    Spacer(Modifier.height(16.dp))
+                    Text(
+                        style = MaterialTheme.typography.headlineSmall,
+                        text = "Паспорт"
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Row {
+                        if (!user.passportSeries.isNullOrBlank()) {
+                            OutlinedTextField(
+                                modifier = Modifier.weight(1f),
+                                label = { Text(text = "Серия") },
+                                value = user.passportSeries,
+                                onValueChange = {},
+                                readOnly = true,
+                                singleLine = true
+                            )
+                            Spacer(Modifier.width(16.dp))
+                        }
+                        OutlinedTextField(
+                            modifier = Modifier.weight(1f),
+                            label = { Text(text = "Номер") },
+                            value = user.passportNumber,
+                            onValueChange = {},
+                            readOnly = true,
+                            singleLine = true
+                        )
+                    }
+
+                    // Email and Password
+                    Spacer(Modifier.height(16.dp))
+                    Text(
+                        style = MaterialTheme.typography.headlineSmall,
+                        text = "Данные для входа"
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "E-mail") },
+                        value = user.email,
+                        onValueChange = {},
+                        readOnly = true,
+                        singleLine = true,
+                    )
+
+                    if (accounts.isNotEmpty()) {
+                        Spacer(Modifier.height(16.dp))
+                        Text(
+                            style = MaterialTheme.typography.headlineSmall,
+                            text = "Счета"
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        accounts.forEach { account ->
+                            AccountListItem(
+                                item = account,
+                                onClick = {
+                                    if (account.type == DEPOSIT) onAccountClick(account.id)
+                                    else onLoanClick(account.id)
+                                }
+                            )
+                        }
+                    }
+
+                    if (!user.whoCreated.isNullOrBlank()) {
+                        Spacer(Modifier.height(16.dp))
+                        Text(
+                            style = MaterialTheme.typography.headlineSmall,
+                            text = "Добавлен в систему"
+                        )
+                        Spacer(Modifier.height(16.dp))
+                        OutlinedButton(
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { showOfficer(user.whoCreated) }) {
+                            Text(text = "Показать сотрудника")
+                        }
+                    }
+
+                    if (user.blocked) {
+                        Spacer(Modifier.height(16.dp))
+                        Text(
+                            style = MaterialTheme.typography.headlineSmall,
+                            color = MaterialTheme.colorScheme.error,
+                            text = "Заблокирован в системе"
+                        )
+                        if (!user.whoBlocked.isNullOrBlank()) {
+                            Spacer(Modifier.height(16.dp))
+                            OutlinedButton(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { showOfficer(user.whoBlocked) }) {
+                                Text(text = "Показать сотрудника")
+                            }
+                        }
+                    } else {
+                        Spacer(Modifier.height(8.dp))
+                        OutlinedButton(
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = blockUser,
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = Color.Transparent,
+                                contentColor = MaterialTheme.colorScheme.error,
+                            )
+                        ) {
+                            Text(text = "Заблокировать в системе")
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
             }
         }
     }
@@ -127,50 +326,6 @@ private fun ClientScreenContent(
 @Composable
 private fun Preview() {
     AppTheme {
-        ClientScreenContent(
-            client = Client(
-                id = "1",
-                firstName = "First Name",
-                lastName = "Last Name",
-                patronymicName = "Patr. Name",
-                phoneNumber = "8800-555-35-35",
-                address = "SDFsdfsDfsdFSD",
-                passportNumber = "sdfsdf",
-                passportSeries = "sdfsdf",
-                isBlocked = false,
-                whoBlocked = "",
-                whoCreated = ""
-            ),
-            accounts = listOf(
-                AccountShort(
-                    id = "1",
-                    number = "12321321313",
-                    type = AccountType.DEPOSIT,
-                    balance = 11,
-                    state = AccountState.OPEN
-                ),
-                AccountShort(
-                    id = "2",
-                    number = "22222222222",
-                    type = AccountType.DEPOSIT,
-                    balance = 120301,
-                    state = AccountState.OPEN
-                ),
-                AccountShort(
-                    id = "3",
-                    number = "12312311111",
-                    type = AccountType.DEPOSIT,
-                    balance = 0,
-                    state = AccountState.CLOSED
-                ),
-                AccountShort(
-                    id = "3",
-                    number = "66666666666",
-                    type = AccountType.LOAN,
-                    balance = 999999999,
-                    state = AccountState.OPEN
-                ),
-            )
-        )
+        ClientScreenContent()
     }
 }

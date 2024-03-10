@@ -80,9 +80,17 @@ fun RootNavGraph(
             ClientScreen(
                 onBackClick = { navController.popBackStack() },
                 navigateToAccount = {
-                    navController.navigate(Screen.Account.route) {
+                    navController.navigate("${Screen.Account.route}/$it") {
                         launchSingleTop = true
                     }
+                },
+                navigateToLoan = {
+                    navController.navigate("${Screen.Loan.route}/$it") {
+                        launchSingleTop = true
+                    }
+                },
+                showOfficer = {
+                    navController.navigate("${Screen.Officer.route}/$it")
                 }
             )
         }
@@ -135,7 +143,8 @@ fun RootNavGraph(
             )
         }
         composable(
-            route = Screen.Account.route,
+            route = "${Screen.Account.route}/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.StringType }),
             enterTransition = { enterTransition() },
             popEnterTransition = { popEnterTransition() },
             exitTransition = { exitTransition() },
