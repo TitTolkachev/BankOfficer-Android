@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "common.proto";
+
 option java_multiple_files = true;
 option java_package = "com.example.trbofficerandroid";
 option java_outer_classname = "LoanProto";
@@ -8,13 +10,10 @@ package loan;
 
 service LoanService {
   rpc GetLoanList (GetLoanListRequest) returns (GetLoanListReply);
-  rpc CreateLoan (CreateLoanRequest) returns (CreateLoanReply);
 }
 
 // Get Loan List
 message GetLoanListRequest{}
-message GetLoanListReply{}
-
-// Create Loan
-message CreateLoanRequest{}
-message CreateLoanReply{}
+message GetLoanListReply{
+  repeated common.LoanShort loan = 1;
+}

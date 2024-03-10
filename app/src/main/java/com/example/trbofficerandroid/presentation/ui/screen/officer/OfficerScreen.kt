@@ -54,12 +54,6 @@ fun OfficerScreen(
     val viewModel: OfficerViewModel = koinViewModel()
     val shackBarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(Unit) {
-        viewModel.navigateBack.collect {
-            navigateBack()
-        }
-    }
-
     LaunchedEffect(true) {
         viewModel.error.collect {
             shackBarHostState.showSnackbar(it)

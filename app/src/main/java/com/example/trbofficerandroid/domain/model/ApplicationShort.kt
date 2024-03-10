@@ -1,8 +1,8 @@
-package com.example.trbofficerandroid.presentation.ui.screen.loanlist.model
+package com.example.trbofficerandroid.domain.model
 
 data class ApplicationShort(
     val id: String,
     val loanTermInDays: Long,
     val issuedAmount: Long,
-    val percentageRate: Double
+    val interestRate: Double
 )

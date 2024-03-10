@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.trbofficerandroid.domain.model.LoanShort
+import com.example.trbofficerandroid.domain.model.LoanStatus
 import com.example.trbofficerandroid.presentation.theme.AppTheme
-import com.example.trbofficerandroid.presentation.ui.screen.loanlist.model.LoanShort
-import com.example.trbofficerandroid.presentation.ui.screen.loanlist.model.LoanStatus
 
 @Composable
 fun LoanListItem(item: LoanShort, onClick: () -> Unit) {

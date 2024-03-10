@@ -40,7 +40,18 @@ fun HomeNavGraph(
             enterTransition = { enterTransition() },
             exitTransition = { exitTransition() },
         ) {
-            LoanListScreen()
+            LoanListScreen(
+                navigateToLoan = {
+                    rootNavController.navigate("${Screen.Loan.route}/$it") {
+                        launchSingleTop = true
+                    }
+                },
+                navigateToApplication = {
+                    rootNavController.navigate("${Screen.Application.route}/$it") {
+                        launchSingleTop = true
+                    }
+                }
+            )
         }
         composable(
             route = HomeScreen.UserList.route,

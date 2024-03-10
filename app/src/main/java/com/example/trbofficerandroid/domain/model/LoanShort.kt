@@ -1,4 +1,4 @@
-package com.example.trbofficerandroid.presentation.ui.screen.loanlist.model
+package com.example.trbofficerandroid.domain.model
 
 data class LoanShort(
     val id: String,

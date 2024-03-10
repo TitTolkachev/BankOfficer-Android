@@ -18,6 +18,7 @@ import com.example.trbofficerandroid.presentation.ui.screen.account.AccountScree
 import com.example.trbofficerandroid.presentation.ui.screen.addclient.AddClientScreen
 import com.example.trbofficerandroid.presentation.ui.screen.addofficer.AddOfficerScreen
 import com.example.trbofficerandroid.presentation.ui.screen.addtariff.AddTariffScreen
+import com.example.trbofficerandroid.presentation.ui.screen.application.ApplicationScreen
 import com.example.trbofficerandroid.presentation.ui.screen.client.ClientScreen
 import com.example.trbofficerandroid.presentation.ui.screen.home.HomeScreen
 import com.example.trbofficerandroid.presentation.ui.screen.officer.OfficerScreen
@@ -159,6 +160,45 @@ fun RootNavGraph(
                     }
                 }
             )
+        }
+        composable(
+            route = "${Screen.Application.route}/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.StringType }),
+            enterTransition = { enterTransition() },
+            popEnterTransition = { popEnterTransition() },
+            exitTransition = { exitTransition() },
+            popExitTransition = { popExitTransition() },
+        ) {
+            ApplicationScreen(
+                navigateBack = { navController.popBackStack() },
+                navigateToClient = {
+                    navController.navigate("${Screen.Client.route}/$it") {
+                        launchSingleTop = true
+                    }
+                },
+                navigateToTariff = {
+                    with(it) {
+                        navController.navigate("${Screen.Tariff.route}/$id/$additionDate/$name/$description/$interestRate/$officerId") {
+                            launchSingleTop = true
+                        }
+                    }
+                },
+                navigateToOfficer = {
+                    navController.navigate("${Screen.Officer.route}/$it") {
+                        launchSingleTop = true
+                    }
+                },
+            )
+        }
+        composable(
+            route = "${Screen.Loan.route}/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.StringType }),
+            enterTransition = { enterTransition() },
+            popEnterTransition = { popEnterTransition() },
+            exitTransition = { exitTransition() },
+            popExitTransition = { popExitTransition() },
+        ) {
+
         }
     }
 }

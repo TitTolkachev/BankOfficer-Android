@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.trbofficerandroid.domain.model.ApplicationShort
 import com.example.trbofficerandroid.presentation.theme.AppTheme
-import com.example.trbofficerandroid.presentation.ui.screen.loanlist.model.ApplicationShort
 
 @Composable
 fun ApplicationListItem(item: ApplicationShort, onClick: () -> Unit) {
@@ -34,7 +34,7 @@ fun ApplicationListItem(item: ApplicationShort, onClick: () -> Unit) {
                 modifier = Modifier.weight(1f),
                 headlineContent = {
                     Column {
-                        Text(text = "${item.issuedAmount}₽")
+                        Text(text = "${item.issuedAmount / 100}₽")
                     }
                 },
                 supportingContent = {
@@ -49,7 +49,7 @@ fun ApplicationListItem(item: ApplicationShort, onClick: () -> Unit) {
             ) {
                 Text(
                     modifier = Modifier.padding(vertical = 6.dp, horizontal = 10.dp),
-                    text = "${item.percentageRate}%"
+                    text = "${item.interestRate}%"
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))

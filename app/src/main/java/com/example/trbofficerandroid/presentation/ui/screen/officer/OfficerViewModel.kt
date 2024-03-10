@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
@@ -23,9 +22,6 @@ class OfficerViewModel(
     private val blockOfficerUseCase: BlockOfficerUseCase,
 ) : ViewModel() {
     val id = savedStateHandle["id"] ?: ""
-
-    private val _navigateBack = MutableSharedFlow<Unit>()
-    val navigateBack = _navigateBack.asSharedFlow()
 
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> = _loading.asStateFlow()
