@@ -7,7 +7,7 @@ class BlockOfficerUseCase(
     private val getUserIdUseCase: GetUserIdUseCase
 ) {
     suspend operator fun invoke(id: String) {
-        val userId = getUserIdUseCase()
+        val userId = getUserIdUseCase() ?: throw Exception("Пользователь не авторизован")
         repository.blockOfficer(officerId = id, whoBlocksId = userId)
     }
 }

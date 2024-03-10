@@ -7,6 +7,7 @@ import com.example.trbofficerandroid.domain.model.Officer
 import com.example.trbofficerandroid.domain.model.UserShort
 
 interface UserRepository {
+    suspend fun signIn(email: String, password: String): String
     suspend fun getClientList(): List<UserShort>
     suspend fun getOfficerList(): List<UserShort>
     suspend fun getClient(id: String): Client

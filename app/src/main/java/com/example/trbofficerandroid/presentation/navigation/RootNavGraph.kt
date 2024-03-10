@@ -21,6 +21,7 @@ import com.example.trbofficerandroid.presentation.ui.screen.addtariff.AddTariffS
 import com.example.trbofficerandroid.presentation.ui.screen.client.ClientScreen
 import com.example.trbofficerandroid.presentation.ui.screen.home.HomeScreen
 import com.example.trbofficerandroid.presentation.ui.screen.officer.OfficerScreen
+import com.example.trbofficerandroid.presentation.ui.screen.signin.SignInScreen
 import com.example.trbofficerandroid.presentation.ui.screen.tariff.TariffScreen
 
 @Composable
@@ -141,6 +142,22 @@ fun RootNavGraph(
         ) {
             AccountScreen(
                 onBackClick = { navController.popBackStack() }
+            )
+        }
+        composable(
+            route = Screen.SignIn.route,
+            enterTransition = { enterTransition() },
+            popEnterTransition = { popEnterTransition() },
+            exitTransition = { exitTransition() },
+            popExitTransition = { popExitTransition() },
+        ) {
+            SignInScreen(
+                navigateToHome = {
+                    navController.popBackStack()
+                    navController.navigate(Screen.Home.route) {
+                        launchSingleTop = true
+                    }
+                }
             )
         }
     }

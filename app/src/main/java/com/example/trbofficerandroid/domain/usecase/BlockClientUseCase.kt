@@ -7,7 +7,7 @@ class BlockClientUseCase(
     private val getUserIdUseCase: GetUserIdUseCase
 ) {
     suspend operator fun invoke(id: String) {
-        val userId = getUserIdUseCase()
+        val userId = getUserIdUseCase() ?: throw Exception("Пользователь не авторизован")
         repository.blockClient(clientId = id, officerId = userId)
     }
 }

@@ -130,4 +130,10 @@ dependencies {
     implementation("io.grpc:grpc-protobuf-lite:1.62.2")
     implementation("io.grpc:grpc-stub:1.62.2")
     implementation("org.apache.tomcat:annotations-api:6.0.53")
+
+    // DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // Splash Screen API
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }

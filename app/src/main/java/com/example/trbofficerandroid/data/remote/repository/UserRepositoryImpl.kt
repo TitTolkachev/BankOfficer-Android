@@ -9,6 +9,7 @@ import com.example.trbofficerandroid.GetClientListRequest
 import com.example.trbofficerandroid.GetClientRequest
 import com.example.trbofficerandroid.GetOfficerListRequest
 import com.example.trbofficerandroid.GetOfficerRequest
+import com.example.trbofficerandroid.SignInRequest
 import com.example.trbofficerandroid.UserServiceGrpc.UserServiceBlockingStub
 import com.example.trbofficerandroid.data.remote.mapper.UserMapper.toDomain
 import com.example.trbofficerandroid.domain.model.Client
@@ -21,6 +22,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class UserRepositoryImpl(private val api: UserServiceBlockingStub) : UserRepository {
+    override suspend fun signIn(email: String, password: String): String =
+        withContext(Dispatchers.IO) {
+            val request = SignInRequest.newBuilder().setEmail(email).setPassword(password).build()
+            return@withContext try {
+                api.signIn(request).id
+            } catch (e: Exception) {
+                Log.e(TAG, "Ошибка при логине: ${e.message}")
+                throw e
+            }
+        }
+
     override suspend fun getClientList(): List<UserShort> = withContext(Dispatchers.IO) {
         val request = GetClientListRequest.newBuilder().build()
         return@withContext try {

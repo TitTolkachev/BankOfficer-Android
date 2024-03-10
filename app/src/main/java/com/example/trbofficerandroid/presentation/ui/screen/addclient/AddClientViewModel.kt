@@ -88,17 +88,18 @@ class AddClientViewModel(
     }
 
     fun onCreateUser() {
-        if (!_loading.value) {
-            viewModelScope.launch {
-                _loading.update { true }
-                try {
-                    createClientUseCase(_user.value.toDomain())
-                    _navigateBack.emit(Unit)
-                } catch (_: Exception) {
-                    _error.emit("Ошибка при создании")
-                }
-                _loading.update { false }
+        if (_loading.value)
+            return
+
+        viewModelScope.launch {
+            _loading.update { true }
+            try {
+                createClientUseCase(_user.value.toDomain())
+                _navigateBack.emit(Unit)
+            } catch (_: Exception) {
+                _error.emit("Ошибка при создании")
             }
+            _loading.update { false }
         }
     }
 

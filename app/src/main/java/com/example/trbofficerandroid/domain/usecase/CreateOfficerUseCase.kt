@@ -8,7 +8,7 @@ class CreateOfficerUseCase(
     private val getUserIdUseCase: GetUserIdUseCase
 ) {
     suspend operator fun invoke(officer: CreateOfficer) {
-        val userId = getUserIdUseCase()
+        val userId = getUserIdUseCase() ?: throw Exception("Пользователь не авторизован")
         repository.createOfficer(officer.copy(whoCreatedId = userId))
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -168,151 +169,147 @@ private fun AddClientScreenContent(
             Modifier
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
-            Column(
-                Modifier
-                    .weight(1f)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                // Person
-                Text(
-                    style = MaterialTheme.typography.headlineSmall,
-                    text = "Информация"
-                )
-                Spacer(Modifier.height(4.dp))
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text(text = "Фамилия") },
-                    value = user.lastName,
-                    onValueChange = onLastNameChange,
-                    singleLine = true
-                )
-                Spacer(Modifier.height(8.dp))
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text(text = "Имя") },
-                    value = user.firstName,
-                    onValueChange = onFirstNameChange,
-                    singleLine = true
-                )
-                Spacer(Modifier.height(8.dp))
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text(text = "Отчество") },
-                    value = user.patronymicName,
-                    onValueChange = onPatronymicNameChange,
-                    singleLine = true
-                )
+            // Person
+            Text(
+                style = MaterialTheme.typography.headlineSmall,
+                text = "Информация"
+            )
+            Spacer(Modifier.height(4.dp))
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(text = "Фамилия") },
+                value = user.lastName,
+                onValueChange = onLastNameChange,
+                singleLine = true
+            )
+            Spacer(Modifier.height(8.dp))
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(text = "Имя") },
+                value = user.firstName,
+                onValueChange = onFirstNameChange,
+                singleLine = true
+            )
+            Spacer(Modifier.height(8.dp))
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(text = "Отчество") },
+                value = user.patronymicName,
+                onValueChange = onPatronymicNameChange,
+                singleLine = true
+            )
 
-                // Data
-                Spacer(Modifier.height(8.dp))
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text(text = "Телефон") },
-                    value = user.phoneNumber,
-                    onValueChange = onPhoneNumberChange,
-                    singleLine = true
-                )
-                Spacer(Modifier.height(8.dp))
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text(text = "Адрес") },
-                    value = user.address,
-                    onValueChange = onAddressChange,
-                    singleLine = true
-                )
-                Spacer(Modifier.height(8.dp))
+            // Data
+            Spacer(Modifier.height(8.dp))
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(text = "Телефон") },
+                value = user.phoneNumber,
+                onValueChange = onPhoneNumberChange,
+                singleLine = true
+            )
+            Spacer(Modifier.height(8.dp))
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(text = "Адрес") },
+                value = user.address,
+                onValueChange = onAddressChange,
+                singleLine = true
+            )
+            Spacer(Modifier.height(8.dp))
 
-                // Birth Date
-                val dateInteractionSource = remember { MutableInteractionSource() }
-                if (dateInteractionSource.collectIsPressedAsState().value) showDatePicker()
-                OutlinedTextField(
-                    value = user.birthDate,
-                    onValueChange = {},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { showDatePicker() },
-                    label = { Text(text = "Дата рождения") },
-                    readOnly = true,
-                    singleLine = true,
-                    trailingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            contentDescription = null
-                        )
-                    },
-                    interactionSource = dateInteractionSource
-                )
-
-                // Sex
-                Spacer(Modifier.height(16.dp))
-                SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-                    SegmentedButton(
-                        selected = user.sex == Sex.MALE,
-                        onClick = { onSexChange(Sex.MALE) },
-                        shape = SegmentedButtonDefaults.itemShape(index = 0, count = 2)
-                    ) {
-                        Text(text = "М")
-                    }
-                    SegmentedButton(
-                        selected = user.sex == Sex.FEMALE,
-                        onClick = { onSexChange(Sex.FEMALE) },
-                        shape = SegmentedButtonDefaults.itemShape(index = 1, count = 2)
-                    ) {
-                        Text(text = "Ж")
-                    }
-                }
-
-                // Document
-                Spacer(Modifier.height(16.dp))
-                Text(
-                    style = MaterialTheme.typography.headlineSmall,
-                    text = "Паспорт"
-                )
-                Spacer(Modifier.height(4.dp))
-                Row {
-                    OutlinedTextField(
-                        modifier = Modifier.weight(1f),
-                        label = { Text(text = "Серия") },
-                        value = user.passportSeries,
-                        onValueChange = onPassportSeriesChange,
-                        singleLine = true
+            // Birth Date
+            val dateInteractionSource = remember { MutableInteractionSource() }
+            if (dateInteractionSource.collectIsPressedAsState().value) showDatePicker()
+            OutlinedTextField(
+                value = user.birthDate,
+                onValueChange = {},
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { showDatePicker() },
+                label = { Text(text = "Дата рождения") },
+                readOnly = true,
+                singleLine = true,
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = null
                     )
-                    Spacer(Modifier.width(16.dp))
-                    OutlinedTextField(
-                        modifier = Modifier.weight(1f),
-                        label = { Text(text = "Номер") },
-                        value = user.passportNumber,
-                        onValueChange = onPassportNumberChange,
-                        singleLine = true
-                    )
-                }
+                },
+                interactionSource = dateInteractionSource
+            )
 
-                // Email and Password
-                Spacer(Modifier.height(16.dp))
-                Text(
-                    style = MaterialTheme.typography.headlineSmall,
-                    text = "Данные для входа"
-                )
-                Spacer(Modifier.height(4.dp))
+            // Sex
+            Spacer(Modifier.height(16.dp))
+            SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+                SegmentedButton(
+                    selected = user.sex == Sex.MALE,
+                    onClick = { onSexChange(Sex.MALE) },
+                    shape = SegmentedButtonDefaults.itemShape(index = 0, count = 2)
+                ) {
+                    Text(text = "М")
+                }
+                SegmentedButton(
+                    selected = user.sex == Sex.FEMALE,
+                    onClick = { onSexChange(Sex.FEMALE) },
+                    shape = SegmentedButtonDefaults.itemShape(index = 1, count = 2)
+                ) {
+                    Text(text = "Ж")
+                }
+            }
+
+            // Document
+            Spacer(Modifier.height(16.dp))
+            Text(
+                style = MaterialTheme.typography.headlineSmall,
+                text = "Паспорт"
+            )
+            Spacer(Modifier.height(4.dp))
+            Row {
                 OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text(text = "E-mail") },
-                    value = user.email,
-                    onValueChange = onEmailChange,
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                    modifier = Modifier.weight(1f),
+                    label = { Text(text = "Серия") },
+                    value = user.passportSeries,
+                    onValueChange = onPassportSeriesChange,
+                    singleLine = true
                 )
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.width(16.dp))
                 OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text(text = "Пароль") },
-                    value = user.password,
-                    onValueChange = onPasswordChange,
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword)
+                    modifier = Modifier.weight(1f),
+                    label = { Text(text = "Номер") },
+                    value = user.passportNumber,
+                    onValueChange = onPassportNumberChange,
+                    singleLine = true
                 )
             }
+
+            // Email and Password
+            Spacer(Modifier.height(16.dp))
+            Text(
+                style = MaterialTheme.typography.headlineSmall,
+                text = "Данные для входа"
+            )
+            Spacer(Modifier.height(4.dp))
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(text = "E-mail") },
+                value = user.email,
+                onValueChange = onEmailChange,
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+            )
+            Spacer(Modifier.height(8.dp))
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(text = "Пароль") },
+                value = user.password,
+                onValueChange = onPasswordChange,
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword)
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
             Button(modifier = Modifier.fillMaxWidth(), onClick = onCreateClick) {

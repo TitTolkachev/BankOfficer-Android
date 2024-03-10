@@ -1,5 +1,7 @@
 package com.example.trbofficerandroid.domain.usecase
 
-class GetUserIdUseCase {
-    operator fun invoke() = "deea880a-510a-4665-bbf0-42e57eb53d3a"
+import com.example.trbofficerandroid.domain.repository.AuthRepository
+
+class GetUserIdUseCase(private val repository: AuthRepository) {
+    suspend operator fun invoke() = repository.getUserId()
 }

@@ -8,7 +8,7 @@ class CreateClientUseCase(
     private val getUserIdUseCase: GetUserIdUseCase
 ) {
     suspend operator fun invoke(client: CreateClient) {
-        val userId = getUserIdUseCase()
+        val userId = getUserIdUseCase() ?: throw Exception("Пользователь не авторизован")
         repository.createClient(client.copy(whoCreatedId = userId))
     }
 }
