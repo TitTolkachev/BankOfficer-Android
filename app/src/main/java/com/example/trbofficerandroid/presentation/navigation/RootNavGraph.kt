@@ -21,6 +21,7 @@ import com.example.trbofficerandroid.presentation.ui.screen.addtariff.AddTariffS
 import com.example.trbofficerandroid.presentation.ui.screen.application.ApplicationScreen
 import com.example.trbofficerandroid.presentation.ui.screen.client.ClientScreen
 import com.example.trbofficerandroid.presentation.ui.screen.home.HomeScreen
+import com.example.trbofficerandroid.presentation.ui.screen.loan.LoanScreen
 import com.example.trbofficerandroid.presentation.ui.screen.officer.OfficerScreen
 import com.example.trbofficerandroid.presentation.ui.screen.signin.SignInScreen
 import com.example.trbofficerandroid.presentation.ui.screen.tariff.TariffScreen
@@ -207,7 +208,9 @@ fun RootNavGraph(
             exitTransition = { exitTransition() },
             popExitTransition = { popExitTransition() },
         ) {
-
+            LoanScreen(
+                navigateBack = { navController.popBackStack() },
+            )
         }
     }
 }

@@ -26,7 +26,7 @@ class LoanRepositoryImpl(
     }
 
     override suspend fun getLoan(id: String): Loan = withContext(Dispatchers.IO) {
-        val request = GetLoanRequest.newBuilder().build()
+        val request = GetLoanRequest.newBuilder().setId(id).build()
         return@withContext try {
             api.getLoan(request).loan.toDomain()
         } catch (e: Exception) {

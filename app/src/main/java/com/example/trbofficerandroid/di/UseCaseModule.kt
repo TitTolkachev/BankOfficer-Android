@@ -13,6 +13,7 @@ import com.example.trbofficerandroid.domain.usecase.GetApplicationUseCase
 import com.example.trbofficerandroid.domain.usecase.GetClientListUseCase
 import com.example.trbofficerandroid.domain.usecase.GetClientUseCase
 import com.example.trbofficerandroid.domain.usecase.GetLoanListUseCase
+import com.example.trbofficerandroid.domain.usecase.GetLoanUseCase
 import com.example.trbofficerandroid.domain.usecase.GetOfficerListUseCase
 import com.example.trbofficerandroid.domain.usecase.GetOfficerUseCase
 import com.example.trbofficerandroid.domain.usecase.GetTariffListUseCase
@@ -36,7 +37,7 @@ val useCaseModule = module {
 
     // Loan
     factory { GetLoanListUseCase(get()) }
-    factory { GetAccountUseCase(get()) }
+    factory { GetLoanUseCase(get()) }
 
     // Tariff
     factory { GetTariffListUseCase(get()) }
