@@ -4,6 +4,7 @@ plugins {
     id("kotlinx-serialization")
     id("com.google.devtools.ksp")
     id("com.google.protobuf") version "0.9.4"
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -136,4 +137,14 @@ dependencies {
 
     // Splash Screen API
     implementation("androidx.core:core-splashscreen:1.0.1")
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    implementation("com.google.firebase:firebase-auth")
+
+    // PlayServices auth
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+
+    // Coil Compose
+    implementation("io.coil-kt:coil-compose:2.5.0")
 }

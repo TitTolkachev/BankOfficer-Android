@@ -18,7 +18,7 @@ import org.koin.dsl.module
 val networkModule = module {
 
     single<Channel> {
-        val url = Uri.parse("http://188.235.125.159:5083/")
+        val url = Uri.parse("http://147.45.69.93:8083/")
         ManagedChannelBuilder.forAddress(url.host, url.port).usePlaintext().build()
     }
 

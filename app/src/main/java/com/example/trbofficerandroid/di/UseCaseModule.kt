@@ -17,10 +17,7 @@ import com.example.trbofficerandroid.domain.usecase.GetLoanUseCase
 import com.example.trbofficerandroid.domain.usecase.GetOfficerListUseCase
 import com.example.trbofficerandroid.domain.usecase.GetOfficerUseCase
 import com.example.trbofficerandroid.domain.usecase.GetTariffListUseCase
-import com.example.trbofficerandroid.domain.usecase.GetUserIdUseCase
 import com.example.trbofficerandroid.domain.usecase.RejectApplicationUseCase
-import com.example.trbofficerandroid.domain.usecase.SignInUseCase
-import com.example.trbofficerandroid.domain.usecase.UpdateUserIdUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
@@ -32,8 +29,8 @@ val useCaseModule = module {
     // Application
     factory { GetApplicationListUseCase(get()) }
     factory { GetApplicationUseCase(get()) }
-    factory { ApproveApplicationUseCase(get(), get()) }
-    factory { RejectApplicationUseCase(get(), get()) }
+    factory { ApproveApplicationUseCase(get()) }
+    factory { RejectApplicationUseCase(get()) }
 
     // Loan
     factory { GetLoanListUseCase(get()) }
@@ -41,20 +38,15 @@ val useCaseModule = module {
 
     // Tariff
     factory { GetTariffListUseCase(get()) }
-    factory { CreateTariffUseCase(get(), get()) }
+    factory { CreateTariffUseCase(get()) }
 
     // User
-    factory { SignInUseCase(get(), get()) }
     factory { GetClientListUseCase(get()) }
     factory { GetOfficerListUseCase(get()) }
     factory { GetClientUseCase(get()) }
     factory { GetOfficerUseCase(get()) }
-    factory { BlockClientUseCase(get(), get()) }
-    factory { BlockOfficerUseCase(get(), get()) }
-    factory { CreateClientUseCase(get(), get()) }
-    factory { CreateOfficerUseCase(get(), get()) }
-
-    // Other
-    factory { GetUserIdUseCase(get()) }
-    factory { UpdateUserIdUseCase(get()) }
+    factory { BlockClientUseCase(get()) }
+    factory { BlockOfficerUseCase(get()) }
+    factory { CreateClientUseCase(get()) }
+    factory { CreateOfficerUseCase(get()) }
 }
