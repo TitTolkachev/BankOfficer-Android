@@ -3,6 +3,7 @@ package com.example.trbofficerandroid.data.remote
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
+import android.util.Log
 import com.example.trbofficerandroid.R
 import com.example.trbofficerandroid.data.remote.model.UserData
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -62,6 +63,10 @@ class AuthService(
     }
 
     suspend fun getSignedInUser(): UserData? = auth.currentUser?.run {
+
+        Log.e("TEST", "getSignedInUser: ${this.getIdToken(false).await().claims}")
+        Log.e("TEST", "TOKEN: ${this.getIdToken(false).await().token}")
+
         UserData(
             userId = uid,
             token = getIdToken(false).await().token,

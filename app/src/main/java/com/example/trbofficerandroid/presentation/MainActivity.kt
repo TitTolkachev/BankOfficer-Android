@@ -1,20 +1,26 @@
 package com.example.trbofficerandroid.presentation
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
+import com.example.trbofficerandroid.domain.model.AppTheme
 import com.example.trbofficerandroid.presentation.navigation.RootNavGraph
 import com.example.trbofficerandroid.presentation.navigation.Screen
 import com.example.trbofficerandroid.presentation.theme.AppTheme
-import com.example.trbofficerandroid.presentation.ui.MainViewModel
 import org.koin.java.KoinJavaComponent.inject
 
 class MainActivity : ComponentActivity() {
@@ -46,16 +52,29 @@ class MainActivity : ComponentActivity() {
 
     private fun initCompose(startDestination: Screen) {
         setContent {
-            AppTheme {
-                Surface(
-                    color = MaterialTheme.colorScheme.background,
-                    contentColor = MaterialTheme.colorScheme.onBackground,
+            val theme by viewModel.appTheme.collectAsState(null)
+            if (theme != null) {
+                CompositionLocalProvider(
+                    LocalConfiguration provides LocalConfiguration.current.apply {
+                        uiMode = when (theme) {
+                            AppTheme.DARK -> Configuration.UI_MODE_NIGHT_YES
+                            AppTheme.LIGHT -> Configuration.UI_MODE_NIGHT_NO
+                            else -> Configuration.UI_MODE_NIGHT_NO
+                        }
+                    }
                 ) {
-                    RootNavGraph(
-                        navController = rememberNavController(),
-                        startDestination = startDestination.route,
-                        modifier = Modifier,
-                    )
+                    AppTheme(darkTheme = isSystemInDarkTheme()) {
+                        Surface(
+                            color = MaterialTheme.colorScheme.background,
+                            contentColor = MaterialTheme.colorScheme.onBackground,
+                        ) {
+                            RootNavGraph(
+                                navController = rememberNavController(),
+                                startDestination = startDestination.route,
+                                modifier = Modifier,
+                            )
+                        }
+                    }
                 }
             }
         }

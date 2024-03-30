@@ -1,6 +1,6 @@
 package com.example.trbofficerandroid.di
 
-import com.example.trbofficerandroid.presentation.ui.MainViewModel
+import com.example.trbofficerandroid.presentation.MainViewModel
 import com.example.trbofficerandroid.presentation.ui.screen.account.AccountViewModel
 import com.example.trbofficerandroid.presentation.ui.screen.addclient.AddClientViewModel
 import com.example.trbofficerandroid.presentation.ui.screen.addofficer.AddOfficerViewModel
@@ -30,9 +30,9 @@ val viewModelModule = module {
     viewModel { AddOfficerViewModel(get()) }
     viewModel { TariffViewModel(get()) }
     viewModel { OfficerViewModel(get(), get(), get()) }
-    viewModel { MainViewModel(get()) }
+    viewModel { MainViewModel(get(), get(), get()) }
     viewModel { SignInViewModel(get()) }
-    viewModel { MoreViewModel(get()) }
+    viewModel { MoreViewModel(get(), get(), get()) }
     viewModel { ApplicationViewModel(get(), get(), get(), get()) }
     viewModel { ClientViewModel(get(), get(), get(), get()) }
     viewModel { LoanViewModel(get(), get()) }
