@@ -1,5 +1,6 @@
 package com.example.trbofficerandroid.data.remote.repository
 
+import android.util.Log
 import com.example.trbofficerandroid.data.remote.api.PrefsApi
 import com.example.trbofficerandroid.data.remote.dto.ChangeThemeDto
 import com.example.trbofficerandroid.domain.model.AppTheme
@@ -17,7 +18,8 @@ class PrefsRepositoryImpl(
                 false -> AppTheme.LIGHT
                 else -> AppTheme.UNSPECIFIED
             }
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.i("PrefsRepository", "getAppTheme: ${e.printStackTrace()}")
             AppTheme.UNSPECIFIED
         }
     }
@@ -26,14 +28,16 @@ class PrefsRepositoryImpl(
         try {
             val request = ChangeThemeDto(token = token, themeDark = newTheme == AppTheme.DARK)
             api.changeAppTheme(request)
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.i("PrefsRepository", "changeAppTheme: ${e.printStackTrace()}")
         }
     }
 
     suspend fun getHiddenAccounts(token: String): List<String> = withContext(Dispatchers.IO) {
         return@withContext try {
             api.getHiddenAccounts(token).body() ?: emptyList()
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.i("PrefsRepository", "getHiddenAccounts: ${e.printStackTrace()}")
             emptyList()
         }
     }
