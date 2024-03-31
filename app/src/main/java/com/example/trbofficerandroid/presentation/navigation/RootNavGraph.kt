@@ -152,7 +152,7 @@ fun RootNavGraph(
             popExitTransition = { popExitTransition() },
         ) {
             AccountScreen(
-                onBackClick = { navController.popBackStack() }
+                navigateBack = { navController.popBackStack() }
             )
         }
         composable(

@@ -2,7 +2,6 @@ package com.example.trbofficerandroid.presentation
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.ComponentActivity
@@ -11,7 +10,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -54,11 +52,6 @@ class MainActivity : ComponentActivity() {
 
     private fun initCompose(startDestination: Screen) {
         setContent {
-            LaunchedEffect(true) {
-                viewModel.flow.collect {
-                    Log.i("TEST FLOW", "flow data:\t${it.getOrNull()}")
-                }
-            }
             val theme by viewModel.appTheme.collectAsState(null)
             if (theme != null) {
                 CompositionLocalProvider(

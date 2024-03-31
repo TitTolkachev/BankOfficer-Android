@@ -94,7 +94,7 @@ class AddClientViewModel(
         viewModelScope.launch {
             _loading.update { true }
             try {
-                createUserUseCase(_user.value.toDomain())
+                createUserUseCase(_user.value.copy(isClient = true).toDomain())
                 _navigateBack.emit(Unit)
             } catch (_: Exception) {
                 _error.emit("Ошибка при создании")

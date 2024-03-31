@@ -70,7 +70,7 @@ val networkModule = module {
     }
     single<Retrofit> {
         val builder = Retrofit.Builder()
-            .baseUrl("http://77.106.105.103:8085/api/preferences/")
+            .baseUrl("http://176.209.153.127:50085/api/preferences/")
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
 
         val client: OkHttpClient = get()

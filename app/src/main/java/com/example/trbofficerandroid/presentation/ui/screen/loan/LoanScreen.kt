@@ -65,7 +65,7 @@ private fun LoanScreenContent(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Клиент") },
+                title = { Text("Кредит") },
                 navigationIcon = { BackButton(onBackClick) }
             )
         },
