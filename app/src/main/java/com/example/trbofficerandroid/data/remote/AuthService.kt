@@ -68,7 +68,8 @@ class AuthService(
         Log.e("TEST", "TOKEN: ${this.getIdToken(false).await().token}")
 
         UserData(
-            userId = uid,
+            userId = getIdToken(false).await().claims["id"].toString(),
+            firebaseId = uid,
             token = getIdToken(false).await().token,
             username = displayName,
             profilePictureUrl = photoUrl?.toString()
