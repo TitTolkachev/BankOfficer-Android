@@ -31,7 +31,7 @@ val networkModule = module {
     // Grpc
 
     single<Channel> {
-        val url = Uri.parse("http://77.106.105.103:8083/")
+        val url = Uri.parse("http://176.209.153.127:50083/")
         ManagedChannelBuilder.forAddress(url.host, url.port).usePlaintext().build()
     }
 

@@ -129,7 +129,7 @@ private fun AccountScreenContent(
                         },
                         supportingContent = {
                             Text(
-                                text = "test",
+                                text = "<test>",
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = MaterialTheme.colorScheme.secondary
                             )
