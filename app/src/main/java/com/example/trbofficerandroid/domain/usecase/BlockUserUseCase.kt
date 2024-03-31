@@ -1,16 +1,15 @@
 package com.example.trbofficerandroid.domain.usecase
 
 import com.example.trbofficerandroid.data.remote.AuthService
-import com.example.trbofficerandroid.domain.model.UserShort
 import com.example.trbofficerandroid.domain.repository.UserRepository
 
-class GetClientListUseCase(
+class BlockUserUseCase(
     private val authService: AuthService,
     private val repository: UserRepository
 ) {
-    suspend operator fun invoke(): List<UserShort> {
+    suspend operator fun invoke(userId: String) {
         val token = authService.getSignedInUser()?.token
             ?: throw Exception("Не авторизован")
-        return repository.getClientList(token = token).reversed()
+        repository.blockUser(token = token, userId = userId)
     }
 }

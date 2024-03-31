@@ -53,7 +53,7 @@ import com.example.trbofficerandroid.domain.model.Sex
 import com.example.trbofficerandroid.presentation.theme.AppTheme
 import com.example.trbofficerandroid.presentation.ui.common.BackButton
 import com.example.trbofficerandroid.presentation.ui.common.SnackbarError
-import com.example.trbofficerandroid.presentation.ui.screen.addclient.model.AddClient
+import com.example.trbofficerandroid.presentation.ui.screen.addclient.model.AddUser
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -125,7 +125,7 @@ fun AddClientScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AddClientScreenContent(
-    user: AddClient,
+    user: AddUser,
     loading: Boolean = false,
     shackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
 
@@ -326,7 +326,7 @@ private fun Preview() {
     AppTheme {
         Surface {
             AddClientScreenContent(
-                user = AddClient(
+                user = AddUser(
                     firstName = "First Name",
                     lastName = "Last Name",
                     patronymicName = "Patronymic Name",

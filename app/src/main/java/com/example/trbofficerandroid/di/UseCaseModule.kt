@@ -1,11 +1,9 @@
 package com.example.trbofficerandroid.di
 
 import com.example.trbofficerandroid.domain.usecase.ApproveApplicationUseCase
-import com.example.trbofficerandroid.domain.usecase.BlockClientUseCase
-import com.example.trbofficerandroid.domain.usecase.BlockOfficerUseCase
-import com.example.trbofficerandroid.domain.usecase.CreateClientUseCase
-import com.example.trbofficerandroid.domain.usecase.CreateOfficerUseCase
+import com.example.trbofficerandroid.domain.usecase.BlockUserUseCase
 import com.example.trbofficerandroid.domain.usecase.CreateTariffUseCase
+import com.example.trbofficerandroid.domain.usecase.CreateUserUseCase
 import com.example.trbofficerandroid.domain.usecase.GetAccountListUseCase
 import com.example.trbofficerandroid.domain.usecase.GetAccountUseCase
 import com.example.trbofficerandroid.domain.usecase.GetApplicationListUseCase
@@ -23,30 +21,28 @@ import org.koin.dsl.module
 val useCaseModule = module {
 
     // Account
-    factory { GetAccountListUseCase(get()) }
-    factory { GetAccountUseCase(get()) }
+    factory { GetAccountListUseCase(get(), get()) }
+    factory { GetAccountUseCase(get(), get()) }
 
     // Application
-    factory { GetApplicationListUseCase(get()) }
-    factory { GetApplicationUseCase(get()) }
-    factory { ApproveApplicationUseCase(get()) }
-    factory { RejectApplicationUseCase(get()) }
+    factory { GetApplicationListUseCase(get(), get()) }
+    factory { GetApplicationUseCase(get(), get()) }
+    factory { ApproveApplicationUseCase(get(), get()) }
+    factory { RejectApplicationUseCase(get(), get()) }
 
     // Loan
-    factory { GetLoanListUseCase(get()) }
-    factory { GetLoanUseCase(get()) }
+    factory { GetLoanListUseCase(get(), get()) }
+    factory { GetLoanUseCase(get(), get()) }
 
     // Tariff
-    factory { GetTariffListUseCase(get()) }
-    factory { CreateTariffUseCase(get()) }
+    factory { GetTariffListUseCase(get(), get()) }
+    factory { CreateTariffUseCase(get(), get()) }
 
     // User
-    factory { GetClientListUseCase(get()) }
-    factory { GetOfficerListUseCase(get()) }
-    factory { GetClientUseCase(get()) }
-    factory { GetOfficerUseCase(get()) }
-    factory { BlockClientUseCase(get()) }
-    factory { BlockOfficerUseCase(get()) }
-    factory { CreateClientUseCase(get()) }
-    factory { CreateOfficerUseCase(get()) }
+    factory { GetClientListUseCase(get(), get()) }
+    factory { GetOfficerListUseCase(get(), get()) }
+    factory { GetClientUseCase(get(), get()) }
+    factory { GetOfficerUseCase(get(), get()) }
+    factory { BlockUserUseCase(get(), get()) }
+    factory { CreateUserUseCase(get(), get()) }
 }

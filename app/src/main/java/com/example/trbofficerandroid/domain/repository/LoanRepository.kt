@@ -4,7 +4,6 @@ import com.example.trbofficerandroid.domain.model.Loan
 import com.example.trbofficerandroid.domain.model.LoanShort
 
 interface LoanRepository {
-
-    suspend fun getLoanList(): List<LoanShort>
-    suspend fun getLoan(id: String): Loan
+    suspend fun getLoanList(token: String): List<LoanShort>
+    suspend fun getLoan(token: String, loanId: String): Loan
 }

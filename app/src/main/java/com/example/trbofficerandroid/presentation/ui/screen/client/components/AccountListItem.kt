@@ -29,7 +29,7 @@ fun AccountListItem(item: Account, onClick: () -> Unit) {
                         style = MaterialTheme.typography.labelMedium
                     )
                     Text(
-                        text = "${item.balance / 100}₽",
+                        text = "${item.balance} ${item.currency}",
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }

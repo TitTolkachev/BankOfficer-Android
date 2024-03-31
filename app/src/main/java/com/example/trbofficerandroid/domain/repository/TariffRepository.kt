@@ -4,6 +4,6 @@ import com.example.trbofficerandroid.domain.model.CreateTariff
 import com.example.trbofficerandroid.domain.model.Tariff
 
 interface TariffRepository {
-    suspend fun getTariffList(): List<Tariff>
-    suspend fun createTariff(tariff: CreateTariff): Tariff
+    suspend fun getTariffList(token: String): List<Tariff>
+    suspend fun createTariff(token: String, tariff: CreateTariff): Tariff
 }

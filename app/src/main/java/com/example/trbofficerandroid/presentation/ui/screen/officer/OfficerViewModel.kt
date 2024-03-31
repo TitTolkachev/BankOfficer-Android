@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.trbofficerandroid.domain.model.Officer
-import com.example.trbofficerandroid.domain.usecase.BlockOfficerUseCase
+import com.example.trbofficerandroid.domain.usecase.BlockUserUseCase
 import com.example.trbofficerandroid.domain.usecase.GetOfficerUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class OfficerViewModel(
     savedStateHandle: SavedStateHandle,
     private val getOfficerUseCase: GetOfficerUseCase,
-    private val blockOfficerUseCase: BlockOfficerUseCase,
+    private val blockUserUseCase: BlockUserUseCase,
 ) : ViewModel() {
     val id = savedStateHandle["id"] ?: ""
 
@@ -39,7 +39,7 @@ class OfficerViewModel(
     fun blockUser() = viewModelScope.launch {
         _loading.update { true }
         try {
-            blockOfficerUseCase(id)
+            blockUserUseCase(id)
         } catch (_: Exception) {
             _error.emit("Не удалось заблокировать пользователя")
         }
@@ -56,6 +56,7 @@ class OfficerViewModel(
     private fun loadData() = viewModelScope.launch {
         try {
             val officer = getOfficerUseCase(id)
+            delay(1000)
             _officer.update { officer }
         } catch (_: Exception) {
             _error.emit("Не удалось получить данные пользователя")

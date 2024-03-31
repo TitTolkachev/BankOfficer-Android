@@ -15,8 +15,10 @@ class LoanRepositoryImpl(
     private val api: LoanServiceGrpc.LoanServiceBlockingStub
 ) : LoanRepository {
 
-    override suspend fun getLoanList(): List<LoanShort> = withContext(Dispatchers.IO) {
-        val request = GetLoanListRequest.newBuilder().build()
+    override suspend fun getLoanList(token: String): List<LoanShort> = withContext(Dispatchers.IO) {
+        val request = GetLoanListRequest.newBuilder()
+            .setToken(token)
+            .build()
         return@withContext try {
             api.getLoanList(request).toDomain()
         } catch (e: Exception) {
@@ -25,15 +27,19 @@ class LoanRepositoryImpl(
         }
     }
 
-    override suspend fun getLoan(id: String): Loan = withContext(Dispatchers.IO) {
-        val request = GetLoanRequest.newBuilder().setId(id).build()
-        return@withContext try {
-            api.getLoan(request).loan.toDomain()
-        } catch (e: Exception) {
-            Log.e(TAG, "Ошибка при получении информации о кредите: ${e.message}")
-            throw e
+    override suspend fun getLoan(token: String, loanId: String): Loan =
+        withContext(Dispatchers.IO) {
+            val request = GetLoanRequest.newBuilder()
+                .setToken(token)
+                .setLoanId(loanId)
+                .build()
+            return@withContext try {
+                api.getLoan(request).loan.toDomain()
+            } catch (e: Exception) {
+                Log.e(TAG, "Ошибка при получении информации о кредите: ${e.message}")
+                throw e
+            }
         }
-    }
 
     companion object {
         private val TAG = ApplicationRepositoryImpl::class.simpleName

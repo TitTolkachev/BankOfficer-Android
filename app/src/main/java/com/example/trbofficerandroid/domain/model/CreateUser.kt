@@ -1,6 +1,6 @@
 package com.example.trbofficerandroid.domain.model
 
-data class CreateOfficer(
+data class CreateUser(
     val firstName: String,
     val lastName: String,
     val patronymicName: String? = null,
@@ -13,4 +13,6 @@ data class CreateOfficer(
     val email: String,
     val password: String,
     val sex: Sex,
+    val isClient: Boolean,
+    val isOfficer: Boolean,
 )

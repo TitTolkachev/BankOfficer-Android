@@ -3,7 +3,6 @@
 
     <style name="Theme.HITsBank" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/dark</item>
-        <item name="android:background">@color/dark</item>
         <item name="android:windowBackground">@color/dark</item>
         <item name="android:colorBackground">@color/dark</item>
     </style>

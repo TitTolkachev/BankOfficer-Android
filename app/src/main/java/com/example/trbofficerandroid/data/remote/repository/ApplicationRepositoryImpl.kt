@@ -17,9 +17,11 @@ class ApplicationRepositoryImpl(
     private val api: ApplicationServiceGrpc.ApplicationServiceBlockingStub
 ) : ApplicationRepository {
 
-    override suspend fun getApplicationList(): List<ApplicationShort> =
+    override suspend fun getApplicationList(token: String): List<ApplicationShort> =
         withContext(Dispatchers.IO) {
-            val request = GetApplicationListRequest.newBuilder().build()
+            val request = GetApplicationListRequest.newBuilder()
+                .setToken(token)
+                .build()
             return@withContext try {
                 api.getApplicationList(request).toDomain()
             } catch (e: Exception) {
@@ -28,20 +30,26 @@ class ApplicationRepositoryImpl(
             }
         }
 
-    override suspend fun getApplication(id: String): Application = withContext(Dispatchers.IO) {
-        val request = GetApplicationRequest.newBuilder().setId(id).build()
-        return@withContext try {
-            api.getApplication(request).application.toDomain()
-        } catch (e: Exception) {
-            Log.e(TAG, "Ошибка при получении заявки на кредит: ${e.message}")
-            throw e
-        }
-    }
-
-    override suspend fun approveApplication(applicationId: String, userId: String): Application =
+    override suspend fun getApplication(token: String, applicationId: String): Application =
         withContext(Dispatchers.IO) {
-            val request = ApproveApplicationRequest.newBuilder().setApplicationId(applicationId)
-                .setUserId(userId).build()
+            val request = GetApplicationRequest.newBuilder()
+                .setToken(token)
+                .setId(applicationId)
+                .build()
+            return@withContext try {
+                api.getApplication(request).application.toDomain()
+            } catch (e: Exception) {
+                Log.e(TAG, "Ошибка при получении заявки на кредит: ${e.message}")
+                throw e
+            }
+        }
+
+    override suspend fun approveApplication(token: String, applicationId: String): Application =
+        withContext(Dispatchers.IO) {
+            val request = ApproveApplicationRequest.newBuilder()
+                .setToken(token)
+                .setApplicationId(applicationId)
+                .build()
             return@withContext try {
                 api.approveApplication(request).application.toDomain()
             } catch (e: Exception) {
@@ -50,10 +58,12 @@ class ApplicationRepositoryImpl(
             }
         }
 
-    override suspend fun rejectApplication(applicationId: String, userId: String): Application =
+    override suspend fun rejectApplication(token: String, applicationId: String): Application =
         withContext(Dispatchers.IO) {
-            val request = RejectApplicationRequest.newBuilder().setApplicationId(applicationId)
-                .setUserId(userId).build()
+            val request = RejectApplicationRequest.newBuilder()
+                .setToken(token)
+                .setApplicationId(applicationId)
+                .build()
             return@withContext try {
                 api.rejectApplication(request).application.toDomain()
             } catch (e: Exception) {

@@ -3,9 +3,9 @@ package com.example.trbofficerandroid.presentation.ui.screen.addclient
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.trbofficerandroid.domain.model.Sex
-import com.example.trbofficerandroid.domain.usecase.CreateClientUseCase
+import com.example.trbofficerandroid.domain.usecase.CreateUserUseCase
 import com.example.trbofficerandroid.presentation.ui.common.mapper.UserMapper.toDomain
-import com.example.trbofficerandroid.presentation.ui.screen.addclient.model.AddClient
+import com.example.trbofficerandroid.presentation.ui.screen.addclient.model.AddUser
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,7 +20,7 @@ import java.util.Date
 import java.util.Locale.getDefault
 
 class AddClientViewModel(
-    private val createClientUseCase: CreateClientUseCase
+    private val createUserUseCase: CreateUserUseCase
 ) : ViewModel() {
 
     private val _navigateBack = MutableSharedFlow<Unit>()
@@ -29,8 +29,8 @@ class AddClientViewModel(
     private val _error = MutableSharedFlow<String>()
     val error = _error.shareIn(viewModelScope, SharingStarted.WhileSubscribed())
 
-    private val _user = MutableStateFlow(AddClient())
-    val user: StateFlow<AddClient> = _user.asStateFlow()
+    private val _user = MutableStateFlow(AddUser())
+    val user: StateFlow<AddUser> = _user.asStateFlow()
 
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> = _loading.asStateFlow()
@@ -94,7 +94,7 @@ class AddClientViewModel(
         viewModelScope.launch {
             _loading.update { true }
             try {
-                createClientUseCase(_user.value.toDomain())
+                createUserUseCase(_user.value.toDomain())
                 _navigateBack.emit(Unit)
             } catch (_: Exception) {
                 _error.emit("Ошибка при создании")

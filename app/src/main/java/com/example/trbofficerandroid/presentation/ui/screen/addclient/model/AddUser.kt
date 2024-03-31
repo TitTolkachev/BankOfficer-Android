@@ -1,8 +1,8 @@
-package com.example.trbofficerandroid.presentation.ui.screen.addofficer.model
+package com.example.trbofficerandroid.presentation.ui.screen.addclient.model
 
 import com.example.trbofficerandroid.domain.model.Sex
 
-data class AddOfficer(
+data class AddUser(
     val firstName: String = "",
     val lastName: String = "",
     val patronymicName: String = "",
@@ -16,4 +16,6 @@ data class AddOfficer(
     val email: String = "",
     val password: String = "",
     val sex: Sex = Sex.MALE,
+    val isClient: Boolean = true,
+    val isOfficer: Boolean = false,
 )

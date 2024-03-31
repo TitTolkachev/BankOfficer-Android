@@ -9,6 +9,8 @@ import com.example.trbofficerandroid.LoanServiceGrpc
 import com.example.trbofficerandroid.LoanServiceGrpc.LoanServiceBlockingStub
 import com.example.trbofficerandroid.TariffServiceGrpc
 import com.example.trbofficerandroid.TariffServiceGrpc.TariffServiceBlockingStub
+import com.example.trbofficerandroid.TransactionServiceGrpc
+import com.example.trbofficerandroid.TransactionServiceGrpc.TransactionServiceStub
 import com.example.trbofficerandroid.UserServiceGrpc
 import com.example.trbofficerandroid.UserServiceGrpc.UserServiceBlockingStub
 import com.example.trbofficerandroid.data.remote.api.PrefsApi
@@ -30,7 +32,6 @@ val networkModule = module {
 
     single<Channel> {
         val url = Uri.parse("http://77.106.105.103:8083/")
-//        val url = Uri.parse("http://195.2.84.62:8083/")
         ManagedChannelBuilder.forAddress(url.host, url.port).usePlaintext().build()
     }
 
@@ -48,6 +49,9 @@ val networkModule = module {
     }
     single<UserServiceBlockingStub> {
         UserServiceGrpc.newBlockingStub(get())
+    }
+    single<TransactionServiceStub> {
+        TransactionServiceGrpc.newStub(get())
     }
 
 

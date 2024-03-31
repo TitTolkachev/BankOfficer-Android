@@ -20,6 +20,7 @@ object AccountMapper {
             id = id,
             type = AccountType.valueOf(type),
             balance = balance,
+            currency = currency,
             clientFullName = clientFullName,
             externalClientId = externalClientId,
             creationDate = creationDate,

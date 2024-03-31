@@ -1,16 +1,14 @@
 package com.example.trbofficerandroid.presentation.ui.common.mapper
 
-import com.example.trbofficerandroid.domain.model.CreateClient
-import com.example.trbofficerandroid.domain.model.CreateOfficer
-import com.example.trbofficerandroid.presentation.ui.screen.addclient.model.AddClient
-import com.example.trbofficerandroid.presentation.ui.screen.addofficer.model.AddOfficer
+import com.example.trbofficerandroid.domain.model.CreateUser
+import com.example.trbofficerandroid.presentation.ui.screen.addclient.model.AddUser
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserShort
 import com.example.trbofficerandroid.domain.model.UserShort as UserShortDomain
 
 object UserMapper {
 
-    fun AddClient.toDomain(): CreateClient {
-        return CreateClient(
+    fun AddUser.toDomain(): CreateUser {
+        return CreateUser(
             firstName = firstName,
             lastName = lastName,
             patronymicName = patronymicName.ifBlank { null },
@@ -22,24 +20,9 @@ object UserMapper {
             whoCreatedId = whoCreatedId,
             email = email,
             password = password,
-            sex = sex
-        )
-    }
-
-    fun AddOfficer.toDomain(): CreateOfficer {
-        return CreateOfficer(
-            firstName = firstName,
-            lastName = lastName,
-            patronymicName = patronymicName.ifBlank { null },
-            birthDate = birthDateMs,
-            phoneNumber = phoneNumber,
-            address = address,
-            passportNumber = passportNumber,
-            passportSeries = passportSeries.ifBlank { null },
-            whoCreatedId = whoCreatedId,
-            email = email,
-            password = password,
-            sex = sex
+            sex = sex,
+            isClient = isClient,
+            isOfficer = isOfficer,
         )
     }
 

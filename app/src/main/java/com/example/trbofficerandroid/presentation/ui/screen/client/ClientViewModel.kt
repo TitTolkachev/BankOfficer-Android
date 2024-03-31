@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.trbofficerandroid.domain.model.Account
 import com.example.trbofficerandroid.domain.model.Client
-import com.example.trbofficerandroid.domain.usecase.BlockClientUseCase
+import com.example.trbofficerandroid.domain.usecase.BlockUserUseCase
 import com.example.trbofficerandroid.domain.usecase.GetAccountListUseCase
 import com.example.trbofficerandroid.domain.usecase.GetClientUseCase
 import kotlinx.coroutines.delay
@@ -22,7 +22,7 @@ class ClientViewModel(
     savedStateHandle: SavedStateHandle,
     private val getClientUseCase: GetClientUseCase,
     private val getAccountListUseCase: GetAccountListUseCase,
-    private val blockClientUseCase: BlockClientUseCase,
+    private val blockUserUseCase: BlockUserUseCase,
 ) : ViewModel() {
     val id = savedStateHandle["id"] ?: "UNKNOWN"
 
@@ -45,7 +45,7 @@ class ClientViewModel(
     fun blockUser() = viewModelScope.launch {
         _loading.update { true }
         try {
-            blockClientUseCase(id)
+            blockUserUseCase(id)
         } catch (_: Exception) {
             _error.emit("Не удалось заблокировать пользователя")
         }
@@ -65,6 +65,7 @@ class ClientViewModel(
         try {
             val client = getClientUseCase(id)
             val accounts = getAccountListUseCase(id)
+            delay(1000)
             _client.update { client }
             _accounts.update { accounts }
         } catch (_: Exception) {

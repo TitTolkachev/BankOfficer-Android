@@ -12,8 +12,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class TariffRepositoryImpl(private val api: TariffServiceBlockingStub) : TariffRepository {
-    override suspend fun getTariffList(): List<Tariff> = withContext(Dispatchers.IO) {
-        val request = GetTariffListRequest.newBuilder().build()
+    override suspend fun getTariffList(token: String): List<Tariff> = withContext(Dispatchers.IO) {
+        val request = GetTariffListRequest.newBuilder()
+            .setToken(token)
+            .build()
         return@withContext try {
             api.getTariffList(request).toDomain()
         } catch (e: Exception) {
@@ -22,21 +24,23 @@ class TariffRepositoryImpl(private val api: TariffServiceBlockingStub) : TariffR
         }
     }
 
-    override suspend fun createTariff(tariff: CreateTariff): Tariff = withContext(Dispatchers.IO) {
-        val request = CreateTariffRequest.newBuilder().apply {
-            setName(tariff.name)
-            setDescription(tariff.description)
-            setInterestRate(tariff.interestRate)
-            setOfficerId(tariff.officerId)
-        }.build()
-        return@withContext try {
-            val reply = api.createTariff(request) ?: throw Exception("Ошибка при создании тарифа")
-            reply.tariff.toDomain()
-        } catch (e: Exception) {
-            Log.e(TAG, "Ошибка при создании тарифа: ${e.message}")
-            throw e
+    override suspend fun createTariff(token: String, tariff: CreateTariff): Tariff =
+        withContext(Dispatchers.IO) {
+            val request = CreateTariffRequest.newBuilder().apply {
+                setToken(token)
+                setName(tariff.name)
+                setDescription(tariff.description)
+                setInterestRate(tariff.interestRate)
+            }.build()
+            return@withContext try {
+                val reply =
+                    api.createTariff(request) ?: throw Exception("Ошибка при создании тарифа")
+                reply.tariff.toDomain()
+            } catch (e: Exception) {
+                Log.e(TAG, "Ошибка при создании тарифа: ${e.message}")
+                throw e
+            }
         }
-    }
 
     companion object {
         private val TAG = TariffRepositoryImpl::class.simpleName

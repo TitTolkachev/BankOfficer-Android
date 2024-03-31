@@ -5,6 +5,7 @@ import com.example.trbofficerandroid.data.remote.repository.ApplicationRepositor
 import com.example.trbofficerandroid.data.remote.repository.LoanRepositoryImpl
 import com.example.trbofficerandroid.data.remote.repository.PrefsRepositoryImpl
 import com.example.trbofficerandroid.data.remote.repository.TariffRepositoryImpl
+import com.example.trbofficerandroid.data.remote.repository.TransactionRepositoryImpl
 import com.example.trbofficerandroid.data.remote.repository.UserRepositoryImpl
 import com.example.trbofficerandroid.domain.repository.AccountRepository
 import com.example.trbofficerandroid.domain.repository.ApplicationRepository
@@ -26,6 +27,9 @@ val repositoryModule = module {
 
     // Tariff
     single<TariffRepository> { TariffRepositoryImpl(get()) }
+
+    // Transactions
+    single<TransactionRepositoryImpl> { TransactionRepositoryImpl(get()) }
 
     // User
     single<UserRepository> { UserRepositoryImpl(get()) }

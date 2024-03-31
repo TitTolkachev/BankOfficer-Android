@@ -5,23 +5,31 @@ import androidx.lifecycle.viewModelScope
 import com.example.trbofficerandroid.data.local.PrefsDataStore
 import com.example.trbofficerandroid.data.remote.AuthService
 import com.example.trbofficerandroid.data.remote.repository.PrefsRepositoryImpl
+import com.example.trbofficerandroid.data.remote.repository.TransactionRepositoryImpl
 import com.example.trbofficerandroid.domain.model.AppTheme
 import com.example.trbofficerandroid.presentation.navigation.Screen
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val authService: AuthService,
     private val prefsRepositoryImpl: PrefsRepositoryImpl,
-    private val prefsDataStore: PrefsDataStore
+    private val prefsDataStore: PrefsDataStore,
+
+    transactionRepositoryImpl: TransactionRepositoryImpl
 ) : ViewModel() {
 
     private val _startDestination = MutableStateFlow<Screen?>(null)
     val startDestination: StateFlow<Screen?> = _startDestination.asStateFlow()
 
     val appTheme = prefsDataStore.appThemeFlow
+
+    val flow = transactionRepositoryImpl.getTransactionListFlow()
+        .shareIn(viewModelScope, SharingStarted.WhileSubscribed())
 
     init {
         viewModelScope.launch {
