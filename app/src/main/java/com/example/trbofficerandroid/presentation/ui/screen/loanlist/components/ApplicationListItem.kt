@@ -34,7 +34,7 @@ fun ApplicationListItem(item: ApplicationShort, onClick: () -> Unit) {
                 modifier = Modifier.weight(1f),
                 headlineContent = {
                     Column {
-                        Text(text = "${item.issuedAmount / 100}₽")
+                        Text(text = "${item.issuedAmount}")
                     }
                 },
                 supportingContent = {

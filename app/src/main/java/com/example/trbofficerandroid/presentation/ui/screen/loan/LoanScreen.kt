@@ -113,7 +113,7 @@ private fun LoanScreenContent(
                             ListItem(
                                 headlineContent = {
                                     Text(
-                                        text = "${repayment.amount / 100}₽",
+                                        text = "${repayment.amount}",
                                         style = MaterialTheme.typography.labelMedium
                                     )
                                     Text(

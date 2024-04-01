@@ -172,7 +172,7 @@ private fun ApplicationScreenContent(
                 Text(text = "Запрошенная сумма")
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "${application.issuedAmount / 100}₽",
+                    value = "${application.issuedAmount}",
                     onValueChange = {},
                     readOnly = true,
                     singleLine = true
