@@ -17,20 +17,17 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -41,9 +38,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.trbofficerandroid.R
@@ -87,15 +83,18 @@ fun SignInScreen(navigateToHome: () -> Unit) {
         }
     }
 
+    val uriHandler = LocalUriHandler.current
+    LaunchedEffect(true) {
+        viewModel.link.collect {
+            uriHandler.openUri(it)
+        }
+    }
+
     SignInScreenContent(
-        email = viewModel.email.collectAsState().value,
-        password = viewModel.password.collectAsState().value,
         loading = viewModel.loading.collectAsState().value,
         shackBarHostState = shackBarHostState,
         isSnackBarMessageError = isSnackBarMessageError,
 
-        onEmailChange = remember { { viewModel.onEmailChange(it) } },
-        onPasswordChange = remember { { viewModel.onPasswordChange(it) } },
         onResetPasswordClick = remember { { viewModel.onResetPasswordClick() } },
         onSignInClick = remember { { viewModel.onSignInClick() } },
         onSignInWithGoogleClick = remember { { viewModel.onSignInWithGoogleClick(launcher) } },
@@ -104,14 +103,10 @@ fun SignInScreen(navigateToHome: () -> Unit) {
 
 @Composable
 private fun SignInScreenContent(
-    email: String,
-    password: String,
     loading: Boolean = false,
     shackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
     isSnackBarMessageError: Boolean? = null,
 
-    onEmailChange: (String) -> Unit = {},
-    onPasswordChange: (String) -> Unit = {},
     onResetPasswordClick: () -> Unit = {},
     onSignInClick: () -> Unit = {},
     onSignInWithGoogleClick: () -> Unit = {},
@@ -134,6 +129,8 @@ private fun SignInScreenContent(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Spacer(modifier = Modifier.weight(0.5f))
+
             Image(
                 modifier = Modifier
                     .aspectRatio(1f)
@@ -142,29 +139,10 @@ private fun SignInScreenContent(
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
             )
-            Spacer(modifier = Modifier.weight(0.5f))
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(text = "E-mail") },
-                value = email,
-                onValueChange = onEmailChange,
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(text = "Пароль") },
-                value = password,
-                onValueChange = onPasswordChange,
-                singleLine = true,
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            TextButton(onClick = onResetPasswordClick) {
-                Text(text = "Сбросить пароль")
-            }
+//            TextButton(onClick = onResetPasswordClick) {
+//                Text(text = "Сбросить пароль")
+//            }
+
             Column(
                 modifier = Modifier
                     .defaultMinSize(48.dp)
@@ -180,7 +158,7 @@ private fun SignInScreenContent(
 
             Spacer(modifier = Modifier.height(16.dp))
             Button(modifier = Modifier.fillMaxWidth(), onClick = onSignInClick) {
-                Text(text = "Войти")
+                Text(text = "Войти по Trust Bank ID")
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -217,10 +195,7 @@ private fun SignInScreenContent(
 private fun Preview() {
     AppTheme {
         Surface {
-            SignInScreenContent(
-                email = "asdasdasd@gmail.com",
-                password = "password",
-            )
+            SignInScreenContent()
         }
     }
 }

@@ -31,7 +31,7 @@ val viewModelModule = module {
     viewModel { TariffViewModel(get()) }
     viewModel { OfficerViewModel(get(), get(), get()) }
     viewModel { MainViewModel(get(), get(), get()) }
-    viewModel { SignInViewModel(get()) }
+    viewModel { SignInViewModel(get(), get()) }
     viewModel { MoreViewModel(get(), get(), get()) }
     viewModel { ApplicationViewModel(get(), get(), get(), get()) }
     viewModel { ClientViewModel(get(), get(), get(), get()) }

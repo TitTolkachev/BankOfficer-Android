@@ -23,6 +23,10 @@ class AuthService(
         auth.signInWithEmailAndPassword(email, password).await()
     }
 
+    suspend fun signInWithToken(token: String) {
+        auth.signInWithCustomToken(token).await()
+    }
+
     suspend fun getGoogleSignInIntentSender(): IntentSender? {
         val result = try {
             googleClient.beginSignIn(buildGoogleSignInRequest()).await()

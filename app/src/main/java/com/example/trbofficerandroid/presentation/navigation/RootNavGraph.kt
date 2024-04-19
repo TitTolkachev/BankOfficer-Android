@@ -14,6 +14,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.example.trbofficerandroid.presentation.ui.screen.account.AccountScreen
 import com.example.trbofficerandroid.presentation.ui.screen.addclient.AddClientScreen
 import com.example.trbofficerandroid.presentation.ui.screen.addofficer.AddOfficerScreen
@@ -161,12 +162,23 @@ fun RootNavGraph(
             popEnterTransition = { popEnterTransition() },
             exitTransition = { exitTransition() },
             popExitTransition = { popExitTransition() },
+            deepLinks = listOf(
+                navDeepLink { uriPattern = "trust-bank://sign-in/{token}" },
+            ),
+            arguments = listOf(
+                navArgument("token") {
+                    type = NavType.StringType
+                    nullable = true
+                }
+            )
         ) {
             SignInScreen(
                 navigateToHome = {
-                    navController.popBackStack()
                     navController.navigate(Screen.Home.route) {
                         launchSingleTop = true
+                        popUpTo(Screen.SignIn.route) {
+                            inclusive = true
+                        }
                     }
                 }
             )

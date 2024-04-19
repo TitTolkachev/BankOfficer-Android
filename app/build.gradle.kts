@@ -18,7 +18,6 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -49,6 +48,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.9"
@@ -147,4 +147,13 @@ dependencies {
 
     // Coil Compose
     implementation("io.coil-kt:coil-compose:2.5.0")
+
+    // Chrome Custom Tabs
+    implementation("androidx.browser:browser:1.8.0")
+
+    // Yandex Ads
+    implementation("com.yandex.android:mobileads:7.0.0")
+
+    // Recycler View
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 }
