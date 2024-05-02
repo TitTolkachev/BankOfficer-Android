@@ -108,14 +108,7 @@ fun HomeNavGraph(
             enterTransition = { enterTransition() },
             exitTransition = { exitTransition() },
         ) {
-            MoreScreen(
-                navigateToSignIn = {
-                    rootNavController.popBackStack()
-                    rootNavController.navigate(Screen.SignIn.route) {
-                        launchSingleTop = true
-                    }
-                }
-            )
+            MoreScreen()
         }
     }
 }

@@ -164,6 +164,7 @@ fun RootNavGraph(
             popExitTransition = { popExitTransition() },
             deepLinks = listOf(
                 navDeepLink { uriPattern = "trust-bank://sign-in/{token}" },
+                navDeepLink { uriPattern = "trust-bank://logout" },
             ),
             arguments = listOf(
                 navArgument("token") {

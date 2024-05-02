@@ -8,7 +8,6 @@ import com.example.trbofficerandroid.data.remote.repository.PrefsRepositoryImpl
 import com.example.trbofficerandroid.domain.model.AppTheme
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.shareIn
@@ -24,11 +23,10 @@ class MoreViewModel(
     private val _userPhoto = MutableStateFlow<String?>(null)
     val userPhoto = _userPhoto.asStateFlow()
 
-    private val _navigateToSignIn = MutableSharedFlow<Unit>()
-    val navigateToSignIn: SharedFlow<Unit> = _navigateToSignIn
-        .shareIn(viewModelScope, SharingStarted.WhileSubscribed())
-
     val theme = prefsDataStore.appThemeFlow
+
+    private val _link = MutableSharedFlow<String>()
+    val link = _link.shareIn(viewModelScope, SharingStarted.WhileSubscribed())
 
     init {
         loadUserPhoto()
@@ -37,7 +35,8 @@ class MoreViewModel(
     fun logout() = viewModelScope.launch {
         try {
             authService.signOut()
-            _navigateToSignIn.emit(Unit)
+            _link.emit("http://77.106.105.103:8089/Home/Logout")
+//            _navigateToSignIn.emit(Unit)
         } catch (_: Exception) {
         }
     }

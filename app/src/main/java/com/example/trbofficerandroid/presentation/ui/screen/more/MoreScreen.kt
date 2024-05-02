@@ -1,5 +1,8 @@
 package com.example.trbofficerandroid.presentation.ui.screen.more
 
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,21 +30,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.trbofficerandroid.domain.model.AppTheme
 import com.example.trbofficerandroid.presentation.theme.AppTheme
+import com.example.trbofficerandroid.presentation.ui.screen.signin.openCustomTab
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun MoreScreen(navigateToSignIn: () -> Unit) {
+fun MoreScreen() {
     val viewModel: MoreViewModel = koinViewModel()
     val theme by viewModel.theme.collectAsState(null)
 
-    LaunchedEffect(Unit) {
-        viewModel.navigateToSignIn.collect {
-            navigateToSignIn()
+    val context = LocalContext.current
+    LaunchedEffect(true) {
+        viewModel.link.collect {
+            val customIntent = CustomTabsIntent.Builder()
+                .setDefaultColorSchemeParams(
+                    CustomTabColorSchemeParams.Builder()
+                        .setToolbarColor(0x006B5D)
+                        .build()
+                )
+                .setColorSchemeParams(
+                    CustomTabsIntent.COLOR_SCHEME_DARK,
+                    CustomTabColorSchemeParams.Builder()
+                        .setToolbarColor(0x006B5D)
+                        .build()
+                )
+            openCustomTab(
+                context,
+                customIntent.build(),
+                Uri.parse(it)
+            )
         }
     }
 

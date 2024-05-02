@@ -66,21 +66,6 @@ class SignInViewModel(
     }
 
     fun onSignInClick() = viewModelScope.launch {
-//        if (_loading.value)
-//            return@launch
-//
-//        val email = _email.value
-//        val password = _password.value
-//
-//        _loading.update { true }
-//        try {
-//            authService.signInWithEmailAndPassword(email = email, password = password)
-//            _navigateToHome.emit(Unit)
-//        } catch (_: Exception) {
-//            _error.emit("Не удалось войти")
-//        }
-//        _loading.update { false }
-
         _link.emit("http://77.106.105.103:8089/")
     }
 

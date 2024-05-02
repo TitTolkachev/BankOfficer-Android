@@ -1,8 +1,12 @@
 package com.example.trbofficerandroid.presentation.ui.screen.signin
 
+import android.content.Context
+import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -38,7 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -83,10 +87,26 @@ fun SignInScreen(navigateToHome: () -> Unit) {
         }
     }
 
-    val uriHandler = LocalUriHandler.current
+    val context = LocalContext.current
     LaunchedEffect(true) {
         viewModel.link.collect {
-            uriHandler.openUri(it)
+            val customIntent = CustomTabsIntent.Builder()
+                .setDefaultColorSchemeParams(
+                    CustomTabColorSchemeParams.Builder()
+                        .setToolbarColor(0x006B5D)
+                        .build()
+                )
+                .setColorSchemeParams(
+                    CustomTabsIntent.COLOR_SCHEME_DARK,
+                    CustomTabColorSchemeParams.Builder()
+                        .setToolbarColor(0x006B5D)
+                        .build()
+                )
+            openCustomTab(
+                context,
+                customIntent.build(),
+                Uri.parse(it)
+            )
         }
     }
 
@@ -99,6 +119,10 @@ fun SignInScreen(navigateToHome: () -> Unit) {
         onSignInClick = remember { { viewModel.onSignInClick() } },
         onSignInWithGoogleClick = remember { { viewModel.onSignInWithGoogleClick(launcher) } },
     )
+}
+
+fun openCustomTab(context: Context, customTabsIntent: CustomTabsIntent, uri: Uri?) {
+    customTabsIntent.launchUrl(context, uri!!)
 }
 
 @Composable
