@@ -66,7 +66,7 @@ class SignInViewModel(
     }
 
     fun onSignInClick() = viewModelScope.launch {
-        _link.emit("http://77.106.105.103:8089/")
+        _link.emit("http://77.106.105.103:8089/Home/Index")
     }
 
     /**
