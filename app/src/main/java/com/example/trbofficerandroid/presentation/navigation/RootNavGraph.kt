@@ -229,6 +229,11 @@ fun RootNavGraph(
                         }
                     }
                 },
+                onShowAccountClick = {
+                    navController.navigate("${Screen.Account.route}/$it") {
+                        launchSingleTop = true
+                    }
+                },
                 navigateBack = { navController.popBackStack() },
             )
         }

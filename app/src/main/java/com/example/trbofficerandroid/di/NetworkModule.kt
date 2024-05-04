@@ -10,6 +10,7 @@ import com.example.trbofficerandroid.LoanServiceGrpc.LoanServiceBlockingStub
 import com.example.trbofficerandroid.TariffServiceGrpc
 import com.example.trbofficerandroid.TariffServiceGrpc.TariffServiceBlockingStub
 import com.example.trbofficerandroid.TransactionServiceGrpc
+import com.example.trbofficerandroid.TransactionServiceGrpc.TransactionServiceBlockingStub
 import com.example.trbofficerandroid.TransactionServiceGrpc.TransactionServiceStub
 import com.example.trbofficerandroid.UserServiceGrpc
 import com.example.trbofficerandroid.UserServiceGrpc.UserServiceBlockingStub
@@ -52,6 +53,9 @@ val networkModule = module {
     }
     single<TransactionServiceStub> {
         TransactionServiceGrpc.newStub(get())
+    }
+    single<TransactionServiceBlockingStub> {
+        TransactionServiceGrpc.newBlockingStub(get())
     }
 
 

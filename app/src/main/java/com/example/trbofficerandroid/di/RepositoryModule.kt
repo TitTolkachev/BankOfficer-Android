@@ -29,7 +29,7 @@ val repositoryModule = module {
     single<TariffRepository> { TariffRepositoryImpl(get()) }
 
     // Transactions
-    single<TransactionRepositoryImpl> { TransactionRepositoryImpl(get()) }
+    single<TransactionRepositoryImpl> { TransactionRepositoryImpl(get(), get()) }
 
     // User
     single<UserRepository> { UserRepositoryImpl(get()) }

@@ -94,16 +94,17 @@ private fun MoreScreenContent(
             .padding(16.dp)
             .fillMaxSize()
     ) {
+        Spacer(Modifier.weight(1f))
         AsyncImage(
             modifier = Modifier
-                .size(48.dp)
+                .size(128.dp)
                 .clip(CircleShape)
-                .align(Alignment.End),
+                .align(Alignment.CenterHorizontally),
             model = photoUrl,
             contentScale = ContentScale.Crop,
             contentDescription = null
         )
-        Spacer(Modifier.weight(1f))
+        Spacer(Modifier.weight(2f))
 
         // AppTheme
         Spacer(Modifier.height(16.dp))

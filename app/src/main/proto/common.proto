@@ -21,6 +21,17 @@ message Transaction{
   string result = 1;
 }
 
+message TransactionParsed{
+  string id = 1;
+  string externalId = 2;
+  int64 date = 3;
+  optional string payerAccountId = 4;
+  optional string payeeAccountId = 5;
+  double amount = 6;
+  string currency = 7;
+  string type = 8;
+}
+
 message UserShort{
   string id = 1;
   string firstName = 2;

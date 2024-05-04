@@ -2,24 +2,49 @@ package com.example.trbofficerandroid.data.remote.repository
 
 import android.util.Log
 import com.example.trbofficerandroid.GetTransactionListRequest
+import com.example.trbofficerandroid.GetTransactionsHistoryRequest
 import com.example.trbofficerandroid.Transaction
 import com.example.trbofficerandroid.TransactionServiceGrpc
+import com.example.trbofficerandroid.data.remote.mapper.TransactionMapper.toDomain
 import io.grpc.stub.ClientCallStreamObserver
 import io.grpc.stub.ClientResponseObserver
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import com.example.trbofficerandroid.domain.model.Transaction as TransactionDomain
 
-class TransactionRepositoryImpl(private val api: TransactionServiceGrpc.TransactionServiceStub) {
-
-    fun getTransactionListFlow(): SharedFlow<Result<Transaction>> {
+class TransactionRepositoryImpl(
+    private val api: TransactionServiceGrpc.TransactionServiceStub,
+    private val api2: TransactionServiceGrpc.TransactionServiceBlockingStub,
+) {
+    fun getTransactionListFlow(): Flow<TransactionDomain> {
         val request = GetTransactionListRequest.newBuilder().build()
         val responseFlow: MutableSharedFlow<Result<Transaction>> = MutableSharedFlow()
         val observer = getObserver<GetTransactionListRequest, Transaction>(responseFlow)
         api.getTransactionList(request, observer)
-        return responseFlow.asSharedFlow()
+        return responseFlow.mapNotNull {
+            if (it.isSuccess)
+                it.getOrNull()?.toDomain()
+            else null
+        }
     }
+
+    suspend fun getTransactionsHistory(token: String, accountId: String): List<TransactionDomain> =
+        withContext(Dispatchers.IO) {
+            val request = GetTransactionsHistoryRequest.newBuilder()
+                .setToken(token)
+                .setAccountId(accountId)
+                .build()
+            return@withContext try {
+                api2.getTransactionsHistory(request).toDomain()
+            } catch (e: Exception) {
+                Log.e(TAG, "Ошибка при получении истории транзакций: ${e.message}")
+                throw e
+            }
+        }
 
     private fun <T, U> getObserver(
         resultFlow: MutableSharedFlow<Result<U>>,
@@ -53,5 +78,9 @@ class TransactionRepositoryImpl(private val api: TransactionServiceGrpc.Transact
                 onCompleted()
             }
         }
+    }
+
+    companion object {
+        private val TAG = TransactionRepositoryImpl::class.simpleName
     }
 }
