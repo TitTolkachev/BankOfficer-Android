@@ -222,6 +222,13 @@ fun RootNavGraph(
             popExitTransition = { popExitTransition() },
         ) {
             LoanScreen(
+                onTariffClick = {
+                    with(it) {
+                        navController.navigate("${Screen.Tariff.route}/$id/$additionDate/$name/$description/$interestRate/$officerId") {
+                            launchSingleTop = true
+                        }
+                    }
+                },
                 navigateBack = { navController.popBackStack() },
             )
         }

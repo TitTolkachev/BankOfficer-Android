@@ -19,7 +19,6 @@ class MoreViewModel(
     private val prefsRepositoryImpl: PrefsRepositoryImpl,
     private val prefsDataStore: PrefsDataStore,
 ) : ViewModel() {
-
     private val _userPhoto = MutableStateFlow<String?>(null)
     val userPhoto = _userPhoto.asStateFlow()
 
@@ -35,8 +34,7 @@ class MoreViewModel(
     fun logout() = viewModelScope.launch {
         try {
             authService.signOut()
-            _link.emit("http://77.106.105.103:8089/Home/Logout")
-//            _navigateToSignIn.emit(Unit)
+            _link.emit("http://5.42.105.160:8086/Home/Logout")
         } catch (_: Exception) {
         }
     }

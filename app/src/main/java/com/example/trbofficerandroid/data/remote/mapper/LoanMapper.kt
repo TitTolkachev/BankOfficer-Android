@@ -14,17 +14,16 @@ import com.example.trbofficerandroid.LoanShort as LoanShortProto
 object LoanMapper {
 
     fun GetLoanListReply.toDomain(): List<LoanShort> {
-        return this.loanList.map { it.toDomain() }
+        return this.loansList.map { it.toDomain() }
     }
 
     fun LoanShortProto.toDomain(): LoanShort {
         return LoanShort(
             id = id,
-            clientFirstName = clientFirstName,
-            clientLastName = clientLastName,
-            issuedAmount = issuedAmount,
-            amountDept = amountDept,
-            status = if (status == LoanStatus.OPEN.name) LoanStatus.OPEN else LoanStatus.CLOSED,
+            issuedDate = issuedDate,
+            repaymentDate = repaymentDate,
+            amountDebt = amountDebt,
+            interestRate = interestRate,
         )
     }
 

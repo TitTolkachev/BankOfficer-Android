@@ -90,11 +90,10 @@ message ApplicationShort{
 
 message LoanShort{
   string id = 1;
-  string clientFirstName = 2;
-  string clientLastName = 3;
-  int64 issuedAmount = 4;
-  int64 amountDept = 5;
-  string status = 6;
+  int64 issuedDate = 2;
+  int64 repaymentDate = 3;
+  int64 amountDebt = 4;
+  double interestRate = 5;
 }
 
 message Client{

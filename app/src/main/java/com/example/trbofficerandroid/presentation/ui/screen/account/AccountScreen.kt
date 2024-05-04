@@ -61,7 +61,7 @@ private fun AccountScreenContent(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Счет клинта") },
+                title = { Text("Счет клиента") },
                 navigationIcon = { BackButton(onBackClick) }
             )
         },

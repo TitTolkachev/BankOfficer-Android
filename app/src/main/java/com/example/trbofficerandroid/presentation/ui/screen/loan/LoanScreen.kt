@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -25,9 +28,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.trbofficerandroid.domain.model.Loan
 import com.example.trbofficerandroid.domain.model.LoanRepaymentState
+import com.example.trbofficerandroid.domain.model.Tariff
 import com.example.trbofficerandroid.presentation.ui.common.BackButton
 import com.example.trbofficerandroid.presentation.ui.common.SnackbarError
 import org.koin.androidx.compose.koinViewModel
@@ -37,6 +42,7 @@ import java.util.Locale
 
 @Composable
 fun LoanScreen(
+    onTariffClick: (Tariff) -> Unit,
     navigateBack: () -> Unit,
 ) {
     val viewModel: LoanViewModel = koinViewModel()
@@ -51,6 +57,7 @@ fun LoanScreen(
     LoanScreenContent(
         loan = viewModel.loan.collectAsState().value,
         shackBarHostState = shackBarHostState,
+        onTariffClick = onTariffClick,
         onBackClick = navigateBack,
     )
 }
@@ -60,6 +67,7 @@ fun LoanScreen(
 private fun LoanScreenContent(
     loan: Loan? = null,
     shackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    onTariffClick: (Tariff) -> Unit,
     onBackClick: () -> Unit = {},
 ) {
     Scaffold(
@@ -102,6 +110,60 @@ private fun LoanScreenContent(
                         singleLine = true
                     )
 
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "Размер кредита") },
+                        value = loan.issuedAmount.toString(),
+                        onValueChange = {},
+                        readOnly = true,
+                        singleLine = true
+                    )
+
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "Долг") },
+                        value = loan.amountDebt.toString(),
+                        onValueChange = {},
+                        readOnly = true,
+                        singleLine = true
+                    )
+
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "Выдан") },
+                        value = SimpleDateFormat(
+                            "d MMMM yyyy",
+                            Locale.getDefault()
+                        ).format(Date(loan.issuedDate)),
+                        onValueChange = {},
+                        readOnly = true,
+                        singleLine = true
+                    )
+
+                    Spacer(Modifier.height(16.dp))
+                    Text(
+                        style = MaterialTheme.typography.headlineSmall,
+                        text = "Тариф"
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Card(
+                        shape = RoundedCornerShape(8.dp),
+                        onClick = { onTariffClick(loan.tariff) }
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .padding(12.dp)
+                                .fillMaxWidth(),
+                            text = loan.tariff.name,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+
                     if (loan.repayments.isNotEmpty()) {
                         Spacer(Modifier.height(16.dp))
                         Text(
@@ -114,16 +176,18 @@ private fun LoanScreenContent(
                                 headlineContent = {
                                     Text(
                                         text = "${repayment.amount}",
-                                        style = MaterialTheme.typography.labelMedium
-                                    )
-                                    Text(
-                                        text = SimpleDateFormat(
-                                            "d MMMM yyyy", Locale.getDefault()
-                                        ).format(Date(repayment.date)),
                                         style = MaterialTheme.typography.bodyLarge
                                     )
                                 },
                                 supportingContent = {
+                                    Text(
+                                        text = SimpleDateFormat(
+                                            "d MMMM yyyy", Locale.getDefault()
+                                        ).format(Date(repayment.date)),
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                },
+                                trailingContent = {
                                     Text(
                                         text = when (repayment.state) {
                                             LoanRepaymentState.OPEN -> "OPEN"
@@ -136,6 +200,7 @@ private fun LoanScreenContent(
                                     )
                                 }
                             )
+                            HorizontalDivider()
                         }
                     }
 
