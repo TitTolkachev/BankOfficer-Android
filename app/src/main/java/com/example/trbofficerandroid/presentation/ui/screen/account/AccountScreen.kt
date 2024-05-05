@@ -174,7 +174,7 @@ private fun AccountScreenContent(
                                         )
                                         Text(
                                             text = SimpleDateFormat(
-                                                "d MMMM yyyy, hh:mm:ss", Locale.getDefault()
+                                                "d MMMM yyyy, HH:mm:ss", Locale.getDefault()
                                             ).format(Date(transaction.date)),
                                             style = MaterialTheme.typography.bodySmall
                                         )
