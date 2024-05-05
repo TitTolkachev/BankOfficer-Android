@@ -16,7 +16,9 @@ import com.example.trbofficerandroid.domain.usecase.GetOfficerListUseCase
 import com.example.trbofficerandroid.domain.usecase.GetOfficerUseCase
 import com.example.trbofficerandroid.domain.usecase.GetTariffListUseCase
 import com.example.trbofficerandroid.domain.usecase.GetTransactionsHistoryUseCase
+import com.example.trbofficerandroid.domain.usecase.GetUserRatingUseCase
 import com.example.trbofficerandroid.domain.usecase.RejectApplicationUseCase
+import com.example.trbofficerandroid.domain.usecase.UpdateUserRatingUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
@@ -49,4 +51,8 @@ val useCaseModule = module {
     factory { GetOfficerUseCase(get(), get()) }
     factory { BlockUserUseCase(get(), get()) }
     factory { CreateUserUseCase(get(), get()) }
+
+    // Rating
+    factory { UpdateUserRatingUseCase(get(), get()) }
+    factory { GetUserRatingUseCase(get(), get()) }
 }

@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+import "common.proto";
+
+option java_multiple_files = true;
+option java_package = "com.example.trbofficerandroid";
+option java_outer_classname = "RatingProto";
+
+package rating;
+
+service RatingService {
+  rpc UpdateUserRating (UpdateUserRatingRequest) returns (UpdateUserRatingResponse);
+  rpc GetUserRating (GetUserRatingRequest) returns (GetUserRatingResponse);
+}
+
+// UpdateUserRating
+message UpdateUserRatingRequest{
+  string token = 1;
+  string clientId = 2;
+}
+message UpdateUserRatingResponse{
+  CreditRating rating = 1;
+}
+
+// GetUserRating
+message GetUserRatingRequest{
+  string token = 1;
+  string clientId = 2;
+}
+message GetUserRatingResponse{
+  CreditRating rating = 1;
+}
+
+message CreditRating{
+  int64 calculationDate = 1;
+  int32 rating = 2;
+}

@@ -15,10 +15,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -39,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import com.example.trbofficerandroid.domain.model.Account
 import com.example.trbofficerandroid.domain.model.AccountType.DEPOSIT
 import com.example.trbofficerandroid.domain.model.Client
+import com.example.trbofficerandroid.domain.model.CreditRating
 import com.example.trbofficerandroid.domain.model.Sex
 import com.example.trbofficerandroid.presentation.theme.AppTheme
 import com.example.trbofficerandroid.presentation.ui.common.BackButton
@@ -68,13 +73,16 @@ fun ClientScreen(
     ClientScreenContent(
         user = viewModel.client.collectAsState().value,
         accounts = viewModel.accounts.collectAsState().value,
+        rating = viewModel.rating.collectAsState().value,
         loading = viewModel.loading.collectAsState().value,
+        loadingRating = viewModel.loadingRating.collectAsState().value,
         shackBarHostState = shackBarHostState,
 
         onBackClick = onBackClick,
         onAccountClick = navigateToAccount,
         onLoanClick = navigateToLoan,
         showOfficer = showOfficer,
+        updateUserRating = remember { { viewModel.updateUserRating() } },
         blockUser = remember { { viewModel.blockUser() } },
     )
 }
@@ -84,13 +92,16 @@ fun ClientScreen(
 private fun ClientScreenContent(
     user: Client? = null,
     accounts: List<Account>? = listOf(),
+    rating: CreditRating? = null,
     loading: Boolean = false,
+    loadingRating: Boolean = false,
     shackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
 
     onBackClick: () -> Unit = {},
     onAccountClick: (String) -> Unit = {},
     onLoanClick: (String) -> Unit = {},
     showOfficer: (String) -> Unit = {},
+    updateUserRating: () -> Unit = {},
     blockUser: () -> Unit = {},
 ) {
     Scaffold(
@@ -249,6 +260,55 @@ private fun ClientScreenContent(
                         modifier = Modifier.fillMaxWidth(),
                         label = { Text(text = "E-mail") },
                         value = user.email,
+                        onValueChange = {},
+                        readOnly = true,
+                        singleLine = true,
+                    )
+
+                    // Credit Rating
+                    Spacer(Modifier.height(16.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            style = MaterialTheme.typography.headlineSmall,
+                            text = "Кредитный рейтинг"
+                        )
+                        if (loadingRating) {
+                            Spacer(Modifier.width(16.dp))
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp),
+                                strokeWidth = 3.dp
+                            )
+                        }
+                    }
+                    Spacer(Modifier.height(4.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        OutlinedTextField(
+                            modifier = Modifier.weight(1f),
+                            label = { Text(text = "Рейтинг") },
+                            value = rating?.rating?.toString() ?: "...",
+                            onValueChange = {},
+                            readOnly = true,
+                            singleLine = true,
+                        )
+                        IconButton(
+                            enabled = !loadingRating,
+                            onClick = updateUserRating
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Refresh,
+                                contentDescription = null,
+                            )
+                        }
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = "Дата") },
+                        value = rating?.calculationDate?.let {
+                            SimpleDateFormat(
+                                "d MMMM yyyy, HH:mm:ss", Locale.getDefault()
+                            ).format(Date(it))
+                        } ?: "...",
                         onValueChange = {},
                         readOnly = true,
                         singleLine = true,

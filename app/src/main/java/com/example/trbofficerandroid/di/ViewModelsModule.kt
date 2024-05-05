@@ -34,7 +34,7 @@ val viewModelModule = module {
     viewModel { SignInViewModel(get(), get()) }
     viewModel { MoreViewModel(get(), get(), get()) }
     viewModel { ApplicationViewModel(get(), get(), get(), get()) }
-    viewModel { ClientViewModel(get(), get(), get(), get()) }
+    viewModel { ClientViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { LoanViewModel(get(), get()) }
     viewModel { AccountViewModel(get(), get(), get(), get()) }
 }
