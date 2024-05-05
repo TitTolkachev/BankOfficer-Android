@@ -11,6 +11,7 @@ class GetLoanUseCase(
     suspend operator fun invoke(loanId: String): Loan {
         val token = authService.getSignedInUser()?.token
             ?: throw Exception("Не авторизован")
-        return repository.getLoan(token = token, loanId = loanId)
+        val loan = repository.getLoan(token = token, loanId = loanId)
+        return loan.copy(repayments = loan.repayments.sortedBy { it.date })
     }
 }

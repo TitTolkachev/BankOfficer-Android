@@ -6,6 +6,7 @@ import com.example.trbofficerandroid.data.local.PrefsDataStore
 import com.example.trbofficerandroid.data.remote.AuthService
 import com.example.trbofficerandroid.data.remote.repository.PrefsRepositoryImpl
 import com.example.trbofficerandroid.domain.model.AppTheme
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class MoreViewModel(
     private val authService: AuthService,
@@ -34,7 +36,8 @@ class MoreViewModel(
     fun logout() = viewModelScope.launch {
         try {
             authService.signOut()
-            _link.emit("http://5.42.105.160:8086/Home/Logout")
+            val token = FirebaseMessaging.getInstance().token.await()
+            _link.emit("http://5.42.105.160:8086/Home/Logout?deviceId=$token")
         } catch (_: Exception) {
         }
     }

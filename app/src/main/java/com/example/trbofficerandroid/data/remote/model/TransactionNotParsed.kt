@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TransactionNotParsed(
     val state: String,
-    val transaction: Transaction,
+    val transaction: Transaction?,
 )

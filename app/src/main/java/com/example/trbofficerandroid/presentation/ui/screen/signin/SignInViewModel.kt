@@ -8,6 +8,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.trbofficerandroid.data.remote.AuthService
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class SignInViewModel(
     savedStateHandle: SavedStateHandle,
@@ -66,7 +68,8 @@ class SignInViewModel(
     }
 
     fun onSignInClick() = viewModelScope.launch {
-        _link.emit("http://5.42.105.160:8086/Home/Index")
+        val token = FirebaseMessaging.getInstance().token.await()
+        _link.emit("http://5.42.105.160:8086/Home/Index?deviceId=$token")
     }
 
     /**
