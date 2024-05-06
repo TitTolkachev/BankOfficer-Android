@@ -34,7 +34,7 @@ val networkModule = module {
     // Grpc
 
     single<Channel> {
-        val url = Uri.parse("http://77.106.105.103:8083/")
+        val url = Uri.parse("http://176.209.187.106:8083/")
         ManagedChannelBuilder.forAddress(url.host, url.port).usePlaintext().build()
     }
 
@@ -79,7 +79,7 @@ val networkModule = module {
     }
     single<Retrofit> {
         val builder = Retrofit.Builder()
-            .baseUrl("http://5.42.105.160:8085/api/preferences/")
+            .baseUrl("http://5.42.105.18:8085/api/preferences/")
             .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
 
         val client: OkHttpClient = get()
