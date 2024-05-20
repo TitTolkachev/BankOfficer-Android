@@ -69,7 +69,7 @@ class SignInViewModel(
 
     fun onSignInClick() = viewModelScope.launch {
         val token = FirebaseMessaging.getInstance().token.await()
-        _link.emit("http://5.42.105.18:8086/Home/Index?deviceId=$token")
+        _link.emit("http://81.19.137.198:8086/Home/Index?deviceId=$token")
     }
 
     /**
