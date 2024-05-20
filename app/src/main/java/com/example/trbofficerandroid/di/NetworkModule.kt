@@ -34,7 +34,7 @@ val networkModule = module {
     // Grpc
 
     single<Channel> {
-        val url = Uri.parse("http://176.209.187.106:8083/")
+        val url = Uri.parse("http://176.209.187.106:50083/")
         ManagedChannelBuilder.forAddress(url.host, url.port).usePlaintext().build()
     }
 
@@ -75,6 +75,7 @@ val networkModule = module {
             .addInterceptor(interceptor)
             .connectTimeout(3, TimeUnit.SECONDS)
             .writeTimeout(3, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true)
             .build()
     }
     single<Retrofit> {

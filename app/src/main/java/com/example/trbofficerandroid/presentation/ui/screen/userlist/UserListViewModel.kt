@@ -8,8 +8,10 @@ import com.example.trbofficerandroid.presentation.ui.common.mapper.UserMapper.to
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserListTabState.CLIENT
 import com.example.trbofficerandroid.presentation.ui.screen.userlist.model.UserShort
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -33,6 +35,9 @@ class UserListViewModel(
 
     private val _activeTab = MutableStateFlow(CLIENT)
     val activeTab: StateFlow<UserListTabState> = _activeTab.asStateFlow()
+
+    private val _showLoadFailure = MutableSharedFlow<Unit>()
+    val showLoadFailure = _showLoadFailure.asSharedFlow()
 
     init {
         loadUsers()
@@ -59,17 +64,21 @@ class UserListViewModel(
         val clients = try {
             getClientListUseCase().toUi()
         } catch (_: Exception) {
-            emptyList()
+            _showLoadFailure.emit(Unit)
+            null
         }
-        _clients.update { clients }
+        if (_clients.value == null && clients == null) _clients.update { emptyList() }
+        else if (clients != null) _clients.update { clients }
     }
 
     suspend fun loadOfficers() {
         val officers = try {
             getOfficerListUseCase().toUi()
         } catch (_: Exception) {
-            emptyList()
+            _showLoadFailure.emit(Unit)
+            null
         }
-        _officers.update { officers }
+        if (_officers.value == null && officers == null) _officers.update { emptyList() }
+        else if (officers != null) _officers.update { officers }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.trbofficerandroid.presentation.ui.screen.tarifflist
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Box
@@ -24,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.trbofficerandroid.domain.model.Tariff
@@ -47,6 +49,13 @@ fun TariffListScreen(
     LaunchedEffect(Unit) {
         fabActions.collect {
             onAddTariffClick()
+        }
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.showLoadFailure.collect {
+            Toast.makeText(context, "Нет ответа от сервера", Toast.LENGTH_SHORT).show()
         }
     }
 

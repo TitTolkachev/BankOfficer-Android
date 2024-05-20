@@ -1,5 +1,6 @@
 package com.example.trbofficerandroid.presentation.ui.screen.loanlist
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
@@ -29,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
@@ -52,6 +54,13 @@ fun LoanListScreen(
     val activeTab by viewModel.activeTab.collectAsState()
     val searchActive by viewModel.searchActive.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.showLoadFailure.collect {
+            Toast.makeText(context, "Нет ответа от сервера", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     LoanListScreenContent(
         loans = viewModel.loanList.collectAsState().value,

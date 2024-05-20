@@ -7,8 +7,10 @@ import com.example.trbofficerandroid.domain.model.LoanShort
 import com.example.trbofficerandroid.domain.usecase.GetApplicationListUseCase
 import com.example.trbofficerandroid.domain.usecase.GetLoanListUseCase
 import com.example.trbofficerandroid.presentation.ui.screen.loanlist.model.LoanListTabState
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -33,6 +35,9 @@ class LoanListViewModel(
     private val _activeTab = MutableStateFlow(LoanListTabState.LOANS)
     val activeTab: StateFlow<LoanListTabState> = _activeTab.asStateFlow()
 
+    private val _showLoadFailure = MutableSharedFlow<Unit>()
+    val showLoadFailure = _showLoadFailure.asSharedFlow()
+
     init {
         loadData()
     }
@@ -46,18 +51,22 @@ class LoanListViewModel(
         val loans = try {
             getLoanListUseCase()
         } catch (_: Exception) {
-            emptyList()
+            _showLoadFailure.emit(Unit)
+            null
         }
-        _loanList.update { loans }
+        if (_loanList.value == null && loans == null) _loanList.update { emptyList() }
+        else if (loans != null) _loanList.update { loans }
     }
 
     suspend fun loadApplications() {
         val applications = try {
             getApplicationListUseCase()
         } catch (_: Exception) {
-            emptyList()
+            _showLoadFailure.emit(Unit)
+            null
         }
-        _applicationList.update { applications }
+        if (_applicationList.value == null && applications == null) _applicationList.update { emptyList() }
+        else if (applications != null) _applicationList.update { applications }
     }
 
     fun onTabStateChange(state: LoanListTabState) {
